@@ -1,0 +1,109 @@
+{
+  "name": "Sample n8n Workflow",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [100, 100]
+    },
+    {
+      "id": "2",
+      "name": "Function Node",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [300, 100],
+      "parameters": {
+        "functionCode": "return $input.all();"
+      }
+    },
+    {
+      "id": "3",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [500, 100],
+      "parameters": {
+        "url": "https://api.example.com/data",
+        "method": "GET"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Set Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [700, 100],
+      "parameters": {
+        "assignments": {
+          "processed": true,
+          "timestamp": "{{ new Date().toISOString() }}"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "Conditional Check",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 100],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "{{ $json.status }}",
+            "rightValue": "success",
+            "operation": "equal"
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Function Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function Node": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Set Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Data": {
+      "main": [
+        [
+          {
+            "node": "Conditional Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

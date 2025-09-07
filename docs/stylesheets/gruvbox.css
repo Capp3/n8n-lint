@@ -1,0 +1,216 @@
+/* Gruvbox color palette for mkdocs-material */
+
+:root {
+  /* Gruvbox dark colors */
+  --md-primary-fg-color: #fe8019;        /* gruvbox bright orange */
+  --md-primary-fg-color--light: #d65d0e; /* gruvbox orange */
+  --md-primary-fg-color--dark: #d65d0e;  /* gruvbox orange */
+  --md-accent-fg-color: #d3869b;         /* gruvbox bright purple */
+  --md-accent-fg-color--transparent: rgba(211, 134, 155, 0.1);
+
+  /* Gruvbox light colors */
+  --md-primary-fg-color--light: #d65d0e; /* gruvbox orange */
+  --md-accent-fg-color--light: #b16286;  /* gruvbox purple */
+}
+
+[data-md-color-scheme="default"] {
+  /* Light theme gruvbox colors */
+  --md-primary-fg-color: #d65d0e;        /* gruvbox orange */
+  --md-primary-fg-color--light: #d65d0e; /* gruvbox orange */
+  --md-primary-fg-color--dark: #d65d0e;  /* gruvbox orange */
+  --md-accent-fg-color: #b16286;         /* gruvbox purple */
+  --md-accent-fg-color--transparent: rgba(177, 98, 134, 0.1);
+
+  /* Background colors */
+  --md-default-bg-color: #fbf1c7;        /* gruvbox light bg */
+  --md-default-bg-color--light: #f9f5d7; /* gruvbox light bg0 */
+  --md-default-bg-color--lighter: #f2e5bc; /* gruvbox light bg1 */
+  --md-default-bg-color--lightest: #ebdbb2; /* gruvbox light bg2 */
+
+  /* Text colors */
+  --md-default-fg-color: #3c3836;        /* gruvbox light fg */
+  --md-default-fg-color--light: #504945; /* gruvbox light fg1 */
+  --md-default-fg-color--lighter: #665c54; /* gruvbox light fg2 */
+  --md-default-fg-color--lightest: #7c6f64; /* gruvbox light fg3 */
+
+  /* Code colors */
+  --md-code-bg-color: #ebdbb2;           /* gruvbox light bg2 */
+  --md-code-fg-color: #3c3836;           /* gruvbox light fg */
+}
+
+[data-md-color-scheme="slate"] {
+  /* Dark theme gruvbox colors */
+  --md-primary-fg-color: #fe8019;        /* gruvbox bright orange */
+  --md-primary-fg-color--light: #fe8019; /* gruvbox bright orange */
+  --md-primary-fg-color--dark: #fe8019;  /* gruvbox bright orange */
+  --md-accent-fg-color: #d3869b;         /* gruvbox bright purple */
+  --md-accent-fg-color--transparent: rgba(211, 134, 155, 0.1);
+
+  /* Background colors */
+  --md-default-bg-color: #282828;        /* gruvbox dark bg */
+  --md-default-bg-color--light: #3c3836; /* gruvbox dark bg0 */
+  --md-default-bg-color--lighter: #504945; /* gruvbox dark bg1 */
+  --md-default-bg-color--lightest: #665c54; /* gruvbox dark bg2 */
+
+  /* Text colors */
+  --md-default-fg-color: #ebdbb2;        /* gruvbox dark fg */
+  --md-default-fg-color--light: #d5c4a1; /* gruvbox dark fg1 */
+  --md-default-fg-color--lighter: #bdae93; /* gruvbox dark fg2 */
+  --md-default-fg-color--lightest: #a89984; /* gruvbox dark fg3 */
+
+  /* Code colors */
+  --md-code-bg-color: #3c3836;           /* gruvbox dark bg0 */
+  --md-code-fg-color: #ebdbb2;           /* gruvbox dark fg */
+}
+
+/* Custom gruvbox syntax highlighting */
+.highlight .c { color: #928374; } /* gruvbox gray */
+.highlight .err { color: #fb4934; } /* gruvbox red */
+.highlight .g { color: #b8bb26; } /* gruvbox green */
+.highlight .k { color: #fe8019; } /* gruvbox bright orange */
+.highlight .l { color: #ebdbb2; } /* gruvbox light fg */
+.highlight .n { color: #ebdbb2; } /* gruvbox light fg */
+.highlight .o { color: #fe8019; } /* gruvbox bright orange */
+.highlight .x { color: #d3869b; } /* gruvbox bright purple */
+.highlight .p { color: #ebdbb2; } /* gruvbox light fg */
+.highlight .cm { color: #928374; } /* gruvbox gray */
+.highlight .cp { color: #928374; } /* gruvbox gray */
+.highlight .c1 { color: #928374; } /* gruvbox gray */
+.highlight .cs { color: #928374; } /* gruvbox gray */
+.highlight .gd { color: #fb4934; } /* gruvbox red */
+.highlight .ge { color: #ebdbb2; font-style: italic; } /* gruvbox light fg */
+.highlight .gr { color: #fb4934; } /* gruvbox red */
+.highlight .gh { color: #fe8019; } /* gruvbox bright orange */
+.highlight .gi { color: #b8bb26; } /* gruvbox green */
+.highlight .go { color: #928374; } /* gruvbox gray */
+.highlight .gp { color: #fe8019; } /* gruvbox bright orange */
+.highlight .gs { color: #ebdbb2; font-weight: bold; } /* gruvbox light fg */
+.highlight .gu { color: #d3869b; } /* gruvbox bright purple */
+.highlight .gt { color: #fb4934; } /* gruvbox red */
+.highlight .kc { color: #fe8019; } /* gruvbox bright orange */
+.highlight .kd { color: #fe8019; } /* gruvbox bright orange */
+.highlight .kn { color: #fe8019; } /* gruvbox bright orange */
+.highlight .kp { color: #fe8019; } /* gruvbox bright orange */
+.highlight .kr { color: #fe8019; } /* gruvbox bright orange */
+.highlight .kt { color: #fabd2f; } /* gruvbox yellow */
+.highlight .ld { color: #b8bb26; } /* gruvbox green */
+.highlight .m { color: #d3869b; } /* gruvbox bright purple */
+.highlight .s { color: #b8bb26; } /* gruvbox green */
+.highlight .na { color: #b8bb26; } /* gruvbox green */
+.highlight .nb { color: #fabd2f; } /* gruvbox yellow */
+.highlight .nc { color: #fabd2f; } /* gruvbox yellow */
+.highlight .no { color: #d3869b; } /* gruvbox bright purple */
+.highlight .nd { color: #d3869b; } /* gruvbox bright purple */
+.highlight .ni { color: #d3869b; } /* gruvbox bright purple */
+.highlight .ne { color: #fb4934; } /* gruvbox red */
+.highlight .nf { color: #fabd2f; } /* gruvbox yellow */
+.highlight .nl { color: #fabd2f; } /* gruvbox yellow */
+.highlight .nn { color: #fabd2f; } /* gruvbox yellow */
+.highlight .nx { color: #fabd2f; } /* gruvbox yellow */
+.highlight .py { color: #fabd2f; } /* gruvbox yellow */
+.highlight .nt { color: #fe8019; } /* gruvbox bright orange */
+.highlight .nv { color: #d3869b; } /* gruvbox bright purple */
+.highlight .ow { color: #fe8019; } /* gruvbox bright orange */
+.highlight .w { color: #ebdbb2; } /* gruvbox light fg */
+.highlight .mb { color: #d3869b; } /* gruvbox bright purple */
+.highlight .mf { color: #d3869b; } /* gruvbox bright purple */
+.highlight .mh { color: #d3869b; } /* gruvbox bright purple */
+.highlight .mi { color: #d3869b; } /* gruvbox bright purple */
+.highlight .mo { color: #d3869b; } /* gruvbox bright purple */
+.highlight .sa { color: #b8bb26; } /* gruvbox green */
+.highlight .sb { color: #b8bb26; } /* gruvbox green */
+.highlight .sc { color: #b8bb26; } /* gruvbox green */
+.highlight .dl { color: #b8bb26; } /* gruvbox green */
+.highlight .sd { color: #b8bb26; } /* gruvbox green */
+.highlight .s2 { color: #b8bb26; } /* gruvbox green */
+.highlight .se { color: #fe8019; } /* gruvbox bright orange */
+.highlight .sh { color: #b8bb26; } /* gruvbox green */
+.highlight .si { color: #b8bb26; } /* gruvbox green */
+.highlight .sx { color: #b8bb26; } /* gruvbox green */
+.highlight .sr { color: #b8bb26; } /* gruvbox green */
+.highlight .s1 { color: #b8bb26; } /* gruvbox green */
+.highlight .ss { color: #b8bb26; } /* gruvbox green */
+.highlight .bp { color: #fabd2f; } /* gruvbox yellow */
+.highlight .fm { color: #fabd2f; } /* gruvbox yellow */
+.highlight .vc { color: #d3869b; } /* gruvbox bright purple */
+.highlight .vg { color: #d3869b; } /* gruvbox bright purple */
+.highlight .vi { color: #d3869b; } /* gruvbox bright purple */
+.highlight .vm { color: #d3869b; } /* gruvbox bright purple */
+.highlight .il { color: #d3869b; } /* gruvbox bright purple */
+
+/* Custom styling for better gruvbox integration */
+.md-header {
+  background-color: var(--md-primary-fg-color);
+}
+
+.md-tabs {
+  background-color: var(--md-primary-fg-color--light);
+}
+
+.md-nav__link--active {
+  color: var(--md-accent-fg-color);
+}
+
+.md-nav__link:hover {
+  color: var(--md-accent-fg-color);
+}
+
+/* Code block styling */
+.highlight {
+  background-color: var(--md-code-bg-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* Admonition styling with gruvbox colors */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: #fabd2f; /* gruvbox yellow */
+}
+
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset .admonition.note > summary,
+.md-typeset details.note > .admonition-title,
+.md-typeset details.note > summary {
+  background-color: rgba(250, 189, 47, 0.1);
+  border-color: #fabd2f;
+}
+
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: #b8bb26; /* gruvbox green */
+}
+
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset .admonition.tip > summary,
+.md-typeset details.tip > .admonition-title,
+.md-typeset details.tip > summary {
+  background-color: rgba(184, 187, 38, 0.1);
+  border-color: #b8bb26;
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: #fe8019; /* gruvbox bright orange */
+}
+
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset .admonition.warning > summary,
+.md-typeset details.warning > .admonition-title,
+.md-typeset details.warning > summary {
+  background-color: rgba(254, 128, 25, 0.1);
+  border-color: #fe8019;
+}
+
+.md-typeset .admonition.danger,
+.md-typeset details.danger {
+  border-color: #fb4934; /* gruvbox red */
+}
+
+.md-typeset .admonition.danger > .admonition-title,
+.md-typeset .admonition.danger > summary,
+.md-typeset details.danger > .admonition-title,
+.md-typeset details.danger > summary {
+  background-color: rgba(251, 73, 52, 0.1);
+  border-color: #fb4934;
+}

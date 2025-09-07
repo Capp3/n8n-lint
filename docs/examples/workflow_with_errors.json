@@ -1,0 +1,36 @@
+{
+  "name": "Workflow with Validation Errors",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Function Node with Missing Parameters",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [100, 100]
+      // Missing required "parameters" field - will trigger error
+    },
+    {
+      "id": "2",
+      "name": "HTTP Request with Wrong Type",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [300, 100],
+      "parameters": {
+        "url": "https://api.example.com/data",
+        "method": "INVALID_METHOD" // Invalid method - will trigger error
+      },
+      "unknownProperty": "This should trigger a warning" // Unknown property - will trigger warning
+    },
+    {
+      "id": "3",
+      "name": "Set Node with Missing Assignments",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [500, 100],
+      "parameters": {
+        // Missing required "assignments" field - will trigger error
+      }
+    }
+  ],
+  "connections": {}
+}

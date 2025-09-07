@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "title": "Custom Node Schema",
+  "description": "Example schema for a custom n8n node",
+  "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the node"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the node"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["custom-node"],
+      "description": "Node type identifier"
+    },
+    "typeVersion": {
+      "type": "number",
+      "description": "Version of the node type"
+    },
+    "position": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "Position coordinates [x, y]"
+    },
+    "parameters": {
+      "type": "object",
+      "required": ["customParam"],
+      "properties": {
+        "customParam": {
+          "type": "string",
+          "description": "Custom parameter for the node"
+        },
+        "optionalParam": {
+          "type": "boolean",
+          "description": "Optional boolean parameter"
+        }
+      }
+    }
+  }
+}

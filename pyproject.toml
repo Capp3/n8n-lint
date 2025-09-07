@@ -1,7 +1,7 @@
 [project]
 name = "n8n-lint"
 version = "0.0.1"
-description = "Lint yor n8n JSON here."
+description = "Lint your n8n JSON here."
 readme = "README.md"
 authors = [
   {name = "Dom Capparelli", email = "web@Capparelli.ie"}
@@ -10,7 +10,16 @@ maintainers = [
   {name = "Dom Capparelli", email = "web@Capparelli.ie"}
 ]
 classifiers = [
-    # TODO
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Text Processing :: Markup :: JSON",
 ]
 license = {text = "MIT"}
 
@@ -38,7 +47,7 @@ test = [
     "coverage",  # testing
     "pytest",  # testing
     "ruff",  # linting
-    "ty", # checking types
+    "mypy", # checking types
     "ipdb", # debugging
 ]
 

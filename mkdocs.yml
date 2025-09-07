@@ -1,0 +1,115 @@
+site_name: n8n-lint Documentation
+site_description: A Python-based CLI tool for validating JSON structures within n8n workflows
+site_author: Dom Capparelli
+site_url: https://your-username.github.io/n8n-lint
+
+repo_name: your-username/n8n-lint
+repo_url: https://github.com/your-username/n8n-lint
+
+theme:
+  name: material
+  palette:
+    # Gruvbox color palette
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: "#d65d0e" # gruvbox orange
+      accent: "#b16286" # gruvbox purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: "#fe8019" # gruvbox bright orange
+      accent: "#d3869b" # gruvbox bright purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_toc_entry: true
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Development:
+      - Tasks: tasks.md
+      - Status: status.md
+      - Technical: technical.md
+      - Archive: archive.md
+      - Node Expansion Plan: node-expansion-plan.md
+      - Console Formatting Plan: console-output-formatting-plan.md
+  - Examples:
+      - Sample Workflow: examples/sample_workflow.json
+      - Workflow with Errors: examples/workflow_with_errors.json
+      - Custom Node Schema: examples/custom_node_schema.json
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences
+  - pymdownx.arithmatex
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tilde
+  - admonition
+  - pymdownx.blocks.admonition
+  - pymdownx.blocks.details
+  - pymdownx.blocks.tab
+  - pymdownx.blocks.definition
+  - footnotes
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-username/n8n-lint
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/n8n-lint/
+  version:
+    provider: mike
+  css:
+    - stylesheets/gruvbox.css

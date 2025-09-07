@@ -1,38 +1,72 @@
 # Installation
 
-## Stable release
+This document provides installation instructions for the n8n JSON Linter.
 
-To install n8n-lint, run this command in your terminal:
+## Prerequisites
 
-```sh
-uv add n8n-lint
+- Python 3.12 or higher
+- [uv](https://github.com/astral-sh/uv) package manager (recommended)
+
+## Installation Methods
+
+### Method 1: Using uv (Recommended)
+
+The easiest way to install and use n8n-lint is with `uvx`:
+
+```bash
+# Run directly without installation
+uvx n8n-lint validate workflow.json
+
+# Or install globally
+uv tool install n8n-lint
 ```
 
-Or if you prefer to use `pip`:
+### Method 2: From Source
 
-```sh
+```bash
+# Clone the repository
+git clone https://github.com/your-username/n8n-lint.git
+cd n8n-lint
+
+# Install dependencies
+uv sync
+
+# Install the package
+uv pip install -e .
+```
+
+### Method 3: Using pip
+
+```bash
+# Install from PyPI (when available)
 pip install n8n-lint
 ```
 
-## From source
+## Verification
 
-The source files for n8n-lint can be downloaded from the [Github repo](https://github.com/capp3/n8n_lint).
+After installation, verify that n8n-lint is working correctly:
 
-You can either clone the public repository:
+```bash
+# Check version
+n8n-lint --version
 
-```sh
-git clone git://github.com/capp3/n8n_lint
+# Run help
+n8n-lint --help
+
+# Test with sample workflow
+n8n-lint validate examples/sample_workflow.json
 ```
 
-Or download the [tarball](https://github.com/capp3/n8n_lint/tarball/master):
+## Troubleshooting
 
-```sh
-curl -OJL https://github.com/capp3/n8n_lint/tarball/master
-```
+### Common Issues
 
-Once you have a copy of the source, you can install it with:
+1. **Python Version**: Ensure you're using Python 3.12 or higher
+2. **uv Not Found**: Install uv from [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
+3. **Permission Errors**: Use `--user` flag with pip or ensure proper permissions
 
-```sh
-cd n8n_lint
-uv pip install .
-```
+### Getting Help
+
+- Check the [Usage Guide](usage.md) for detailed examples
+- Review [GitHub Issues](https://github.com/your-username/n8n-lint/issues) for known problems
+- Join [GitHub Discussions](https://github.com/your-username/n8n-lint/discussions) for community support

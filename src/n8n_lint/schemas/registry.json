@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "description": "Registry of n8n node schemas for validation",
+  "schemas": {
+    "n8n-nodes-base.function": {
+      "file": "function.json",
+      "description": "Function node for executing JavaScript code",
+      "version": "1.0.0",
+      "last_updated": "2025-09-07"
+    },
+    "n8n-nodes-base.httpRequest": {
+      "file": "http_request.json",
+      "description": "HTTP Request node for making HTTP calls",
+      "version": "1.0.0",
+      "last_updated": "2025-09-07"
+    },
+    "n8n-nodes-base.set": {
+      "file": "set.json",
+      "description": "Set node for setting data values",
+      "version": "1.0.0",
+      "last_updated": "2025-09-07"
+    },
+    "n8n-nodes-base.if": {
+      "file": "if.json",
+      "description": "IF node for conditional logic",
+      "version": "1.0.0",
+      "last_updated": "2025-09-07"
+    },
+    "n8n-nodes-base.switch": {
+      "file": "switch.json",
+      "description": "Switch node for multi-condition logic",
+      "version": "1.0.0",
+      "last_updated": "2025-09-07"
+    }
+  }
+}
