@@ -1,0 +1,317 @@
+# =============================================================================
+# n8n-lint .gitignore
+# Based on https://github.com/github/gitignore/blob/main/Python.gitignore
+# =============================================================================
+
+# =============================================================================
+# PYTHON CORE
+# =============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# =============================================================================
+# PACKAGE MANAGEMENT & DEPENDENCIES
+# =============================================================================
+
+# UV (package manager)
+uv.lock
+
+# pipenv
+#Pipfile.lock
+
+# poetry
+#poetry.lock
+#poetry.toml
+
+# pdm
+#pdm.lock
+#pdm.toml
+.pdm-python
+.pdm-build/
+
+# pixi
+#pixi.lock
+.pixi
+
+# PEP 582
+__pypackages__/
+
+# =============================================================================
+# BUILD & DISTRIBUTION
+# =============================================================================
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyBuilder
+.pybuilder/
+target/
+
+# =============================================================================
+# TESTING & COVERAGE
+# =============================================================================
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# =============================================================================
+# VIRTUAL ENVIRONMENTS
+# =============================================================================
+
+# Python virtual environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# pyenv
+.python-version
+
+# =============================================================================
+# DEVELOPMENT TOOLS & IDEs
+# =============================================================================
+
+# Traditional IDEs
+# PyCharm / IntelliJ
+#.idea/
+
+# Visual Studio Code
+#.vscode/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim/Neovim
+*.swp
+*.swo
+*~
+.vimrc.local
+.nvimrc.local
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# AI-POWERED DEVELOPMENT TOOLS
+# =============================================================================
+
+# Cursor AI
+.cursor/
+
+# Windsurf AI
+.windsurf/
+.windsurf_cache/
+windsurf.log
+
+# Claude Code / Anthropic
+.claude/
+.claude_cache/
+claude.log
+
+# GitHub Copilot
+.copilot/
+
+# Tabnine
+.tabnine/
+tabnine.log
+
+# Codeium
+.codeium/
+.codeium_cache/
+
+# Amazon CodeWhisperer
+.codewhisperer/
+.codewhisperer_cache/
+
+# Replit Ghostwriter
+.replit/
+.replit_cache/
+
+# Continue AI
+.continue/
+continue.log
+
+# Aider
+.aider/
+aider.log
+
+# CodeT5 / Salesforce
+.codet5/
+.codet5_cache/
+
+# DeepCode / Snyk Code
+.deepcode/
+.snyk/
+
+# Kite
+.kite/
+kite.log
+
+# IntelliCode
+.intellicode/
+.intellicode_cache/
+
+# AI Code Assistants (Generic)
+.ai_assistant/
+.ai_cache/
+ai_workspace/
+
+# =============================================================================
+# TYPE CHECKING & LINTING
+# =============================================================================
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Ruff linter
+.ruff_cache/
+
+# =============================================================================
+# DOCUMENTATION
+# =============================================================================
+
+# Sphinx documentation
+docs/_build/
+
+# mkdocs documentation
+/site
+
+# =============================================================================
+# FRAMEWORK-SPECIFIC
+# =============================================================================
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# =============================================================================
+# JUPYTER & NOTEBOOKS
+# =============================================================================
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# =============================================================================
+# SPECIALIZED TOOLS
+# =============================================================================
+
+# SageMath
+*.sage.py
+
+# Cython
+cython_debug/
+
+# Translations
+*.mo
+*.pot
+
+# PyPI configuration
+.pypirc
+
+# Marimo
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Abstra
+.abstra/
+
+# =============================================================================
+# PROJECT-SPECIFIC
+# =============================================================================
+
+# Custom development modes and optimization documentation
+custom_modes/
+optimization-journey/
+
+

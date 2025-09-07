@@ -1,0 +1,107 @@
+{
+  "python.defaultInterpreterPath": "./.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}"
+  ],
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll.ruff": "explicit"
+    }
+  },
+  "ruff.path": ["./.venv/bin/ruff"],
+  "ruff.importStrategy": "fromEnvironment",
+  "ruff.showNotifications": "onError",
+  "basedpyright.analysis.extraPaths": [
+    "${workspaceFolder}/src"
+  ],
+  "basedpyright.analysis.typeCheckingMode": "standard",
+  "basedpyright.analysis.autoImportCompletions": true,
+  "basedpyright.analysis.autoSearchPaths": true,
+  "basedpyright.analysis.diagnosticMode": "workspace",
+  "files.autoSave": "afterDelay",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/*.pyc": true
+  },
+  "editor.rulers": [
+    120
+  ],
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "markdownlint.config": {
+    "MD013": false,
+    "MD033": false
+  },
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "HACK",
+    "NOTE",
+    "BUG",
+    "TASK",
+    "REVIEW"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\*|\\+))\\s*($TAGS)",
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "icon": "check",
+      "type": "tag",
+      "foreground": "white",
+      "background": "red",
+      "iconColour": "blue"
+    },
+    "FIXME": {
+      "icon": "alert",
+      "type": "tag",
+      "foreground": "white",
+      "background": "orange",
+      "iconColour": "orange"
+    },
+    "HACK": {
+      "icon": "tools",
+      "type": "tag",
+      "foreground": "white",
+      "background": "purple",
+      "iconColour": "purple"
+    },
+    "NOTE": {
+      "icon": "note",
+      "type": "tag",
+      "foreground": "white",
+      "background": "blue",
+      "iconColour": "blue"
+    }
+  },
+  "todo-tree.general.markdown": true,
+  "todo-tree.general.includeGlobs": [
+    "**/*.md",
+    "**/*.py",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.json",
+    "**/*.yaml",
+    "**/*.yml"
+  ]
+}

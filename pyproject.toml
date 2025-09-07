@@ -1,0 +1,105 @@
+[project]
+name = "n8n-lint"
+version = "0.0.1"
+description = "Lint yor n8n JSON here."
+readme = "README.md"
+authors = [
+  {name = "Dom Capparelli", email = "web@Capparelli.ie"}
+]
+maintainers = [
+  {name = "Dom Capparelli", email = "web@Capparelli.ie"}
+]
+classifiers = [
+    # TODO
+]
+license = {text = "MIT"}
+
+dependencies = [
+  "typer"
+]
+
+requires-python = ">= 3.12"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pre-commit>=4.2.0",
+    "tox-uv>=1.25.0",
+
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.11",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.14",
+    "mkdocstrings[python]>=0.29.1",
+    "pyinstaller>=6.13.0",
+]
+
+test = [
+    "coverage",  # testing
+    "pytest",  # testing
+    "ruff",  # linting
+    "ty", # checking types
+    "ipdb", # debugging
+]
+
+[project.urls]
+bugs = "https://github.com/capp3/n8n_lint/issues"
+changelog = "https://github.com/capp3/n8n_lint/blob/master/changelog.md"
+homepage = "https://github.com/capp3/n8n_lint"
+
+[project.scripts]
+n8n_lint = "n8n_lint.cli:app"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+preview = true
+
+[tool.uv]
+package = true
