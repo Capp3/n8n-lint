@@ -58,10 +58,9 @@ nav:
   - Development:
       - Tasks: tasks.md
       - Status: status.md
-      - Technical: technical.md
+      - Testing & Linting Plan: testing-linting-plan.md
+      - Official Node Coverage Plan: official-node-coverage-plan.md
       - Archive: archive.md
-      - Node Expansion Plan: node-expansion-plan.md
-      - Console Formatting Plan: console-output-formatting-plan.md
   - Examples:
       - Sample Workflow: examples/sample_workflow.json
       - Workflow with Errors: examples/workflow_with_errors.json
@@ -77,13 +76,13 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.snippets
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: material.extensions.emoji.twemoji
+      emoji_generator: material.extensions.emoji.to_svg
   - pymdownx.superfences
   - pymdownx.arithmatex
   - pymdownx.critic
