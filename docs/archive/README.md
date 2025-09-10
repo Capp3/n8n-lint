@@ -1,35 +1,20 @@
-# 📦 Documentation Archive
+# Archive
 
-This directory contains archived documentation for features that were removed to keep the n8n-lint tool simple and focused.
+This directory contains historical documentation and decisions from the development process.
 
-## Archived Features
+## Contents
 
-- **Console Formatting** - Complex output formatting system (moved to keep CLI simple)
-- **Node Expansion** - Extensive node coverage plans (moved to avoid feature creep)
-- **Technical Documentation** - Over-engineered architecture docs (moved to keep docs lean)
-- **Planning Documents** - Complex planning docs (moved to keep focus on core functionality)
+- **installation.md** - Original installation guide (now in main README.md)
+- **usage.md** - Original usage guide (now in main README.md)
+- **testing-linting-plan.md** - Comprehensive testing and linting implementation plan
+- **reflection.md** - Development reflection and lessons learned
+- **archive-phase-summary.md** - Summary of archived phases
+- **archive.md** - Original archive documentation
+- **reflect-workflow-modernization.md** - Workflow modernization reflection
+- **workflow-improvements-summary.md** - Workflow improvements summary
+- **official-node-coverage-plan.md** - Strategy for covering all official n8n nodes
+- **creative-decisions.md** - Creative phase decisions and rationale
 
-## Archive Structure
+## Note
 
-- `console-formatting/` - Console output formatting implementation
-- `node-expansion/` - Node coverage expansion plans
-- `technical-docs/` - Technical architecture documentation
-- `planning-docs/` - Complex planning and analysis documents
-
-## Rationale
-
-The n8n-lint tool is designed to be a simple CLI for validating n8n workflows. These features were archived to:
-
-1. **Maintain Simplicity** - Keep the tool focused on core validation
-2. **Reduce Complexity** - Avoid over-engineering for a simple tool
-3. **Improve Usability** - Make it easy for developers to understand and use
-4. **Future Flexibility** - Keep advanced features available for future consideration
-
-## Current Focus
-
-The tool now focuses on:
-
-- Core workflow validation
-- Essential CLI commands (validate, import-schema, list-schemas)
-- Simple JSON output for automation
-- Developer-focused documentation
+These files are kept for historical reference but are no longer actively maintained. The current documentation is in the main README.md and the simplified docs/ directory.

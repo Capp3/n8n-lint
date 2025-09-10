@@ -3,7 +3,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +28,8 @@ class SchemaManager:
                 with open(REGISTRY_FILE) as f:
                     self.registry = json.load(f)
                 logger.debug(f"Loaded registry with {len(self.registry)} entries")
-            except (OSError, json.JSONDecodeError) as e:
-                logger.error(f"Failed to load registry: {e}")
+            except (OSError, json.JSONDecodeError):
+                logger.exception("Failed to load registry")
                 self.registry = {}
         else:
             logger.warning("Registry file not found, creating empty registry")
@@ -47,8 +47,8 @@ class SchemaManager:
                             schema = json.load(f)
                         self.schemas[node_type] = schema
                         logger.debug(f"Loaded schema for node type: {node_type}")
-                    except (OSError, json.JSONDecodeError) as e:
-                        logger.error(f"Failed to load schema {schema_file}: {e}")
+                    except (OSError, json.JSONDecodeError):
+                        logger.exception("Failed to load schema")
 
         # Fallback: load all JSON files in directory
         for schema_file in SCHEMAS_DIR.glob("*.json"):
@@ -62,8 +62,8 @@ class SchemaManager:
                         schema = json.load(f)
                     self.schemas[node_type] = schema
                     logger.debug(f"Loaded schema for node type: {node_type}")
-                except (OSError, json.JSONDecodeError) as e:
-                    logger.error(f"Failed to load schema {schema_file}: {e}")
+                except (OSError, json.JSONDecodeError):
+                    logger.exception("Failed to load schema")
 
     def get_schema(self, node_type: str) -> dict[str, Any] | None:
         """Get schema for a specific node type."""
@@ -97,10 +97,11 @@ class SchemaManager:
                 json.dump(schema, f, indent=2)
             self.schemas[node_type] = schema
             logger.info(f"Imported schema for node type: {node_type}")
-            return True
-        except OSError as e:
-            logger.error(f"Failed to save schema {node_type}: {e}")
+        except OSError:
+            logger.exception("Failed to save schema")
             return False
+        else:
+            return True
 
 
 # Global schema manager instance

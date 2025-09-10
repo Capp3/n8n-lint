@@ -19,9 +19,10 @@ def save_json_file(data: dict[str, Any], file_path: Path) -> bool:
     try:
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-        return True
     except OSError:
         return False
+    else:
+        return True
 
 
 def format_error_message(

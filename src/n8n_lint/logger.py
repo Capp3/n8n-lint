@@ -202,7 +202,8 @@ class N8nLogger:
         if self.output_format == OutputFormat.JSON:
             formatter = self.formatters[OutputFormat.JSON]
             output = formatter.format_validation_result(all_messages, summary)
-            self.console.print(output)
+            # Use print() directly for JSON to avoid Rich formatting
+            print(output)
         elif self.output_format == OutputFormat.CONSOLE:
             formatter = self.formatters[OutputFormat.CONSOLE]
             # Use render method for proper Rich object display
@@ -250,7 +251,7 @@ class N8nLogger:
     def export_report(self, format_type: str, file_path: str = "") -> str:
         """Export validation report in specified format."""
         if format_type not in self.formatters:
-            raise ValueError(f"Unsupported format: {format_type}")
+            raise ValueError("Unsupported format: " + format_type)
 
         formatter = self.formatters[format_type]
         all_messages = self.get_all_messages()

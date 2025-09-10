@@ -18,7 +18,7 @@ class MarkdownFormatter(OutputFormatter):
         severity_icon = {
             "error": "❌",
             "warning": "⚠️",
-            "info": "ℹ️",
+            "info": "i",
         }.get(error.severity, "🔍")
 
         markdown = f"### {severity_icon} {error.severity.upper()}: {error.message}\n"
@@ -55,51 +55,61 @@ class MarkdownFormatter(OutputFormatter):
             return ""
 
         markdown = "# Validation Errors\n\n"
-
-        # Group errors by severity
-        error_groups = {"error": [], "warning": [], "info": []}
-        for error in errors:
-            if error.severity in error_groups:
-                error_groups[error.severity].append(error)
+        error_groups = self._group_errors_by_severity(errors)
 
         for severity, group_errors in error_groups.items():
             if not group_errors:
                 continue
-
-            severity_title = {"error": "Errors", "warning": "Warnings", "info": "Info Messages"}[severity]
-
-            markdown += f"## {severity_title} ({len(group_errors)})\n\n"
-
-            for i, error in enumerate(group_errors, 1):
-                markdown += f"### {i}. {error.message}\n"
-
-                # Add context
-                context_parts = []
-                if error.node_type:
-                    context_parts.append(f"**Node:** `{error.node_type}`")
-                if error.property_path:
-                    context_parts.append(f"**Property:** `{error.property_path}`")
-                if error.line_number:
-                    context_parts.append(f"**Line:** {error.line_number}")
-                if error.file_path:
-                    context_parts.append(f"**File:** `{error.file_path}`")
-
-                if context_parts:
-                    markdown += f"\n**Context:** {', '.join(context_parts)}\n"
-
-                # Add expected/actual values
-                if error.expected and error.actual:
-                    markdown += "\n**Details:**\n"
-                    markdown += f"- **Expected:** `{error.expected}`\n"
-                    markdown += f"- **Actual:** `{error.actual}`\n"
-                elif error.expected:
-                    markdown += f"\n**Expected:** `{error.expected}`\n"
-                elif error.actual:
-                    markdown += f"\n**Actual:** `{error.actual}`\n"
-
-                markdown += "\n---\n\n"
+            markdown += self._format_error_group(severity, group_errors)
 
         return markdown
+
+    def _group_errors_by_severity(self, errors: list[ValidationError]) -> dict[str, list[ValidationError]]:
+        """Group errors by severity."""
+        error_groups = {"error": [], "warning": [], "info": []}
+        for error in errors:
+            if error.severity in error_groups:
+                error_groups[error.severity].append(error)
+        return error_groups
+
+    def _format_error_group(self, severity: str, group_errors: list[ValidationError]) -> str:
+        """Format a group of errors with the same severity."""
+        severity_title = {"error": "Errors", "warning": "Warnings", "info": "Info Messages"}[severity]
+        markdown = f"## {severity_title} ({len(group_errors)})\n\n"
+
+        for i, error in enumerate(group_errors, 1):
+            markdown += f"### {i}. {error.message}\n"
+            markdown += self._format_error_context(error)
+            markdown += self._format_error_details(error)
+            markdown += "\n---\n\n"
+
+        return markdown
+
+    def _format_error_context(self, error: ValidationError) -> str:
+        """Format error context information."""
+        context_parts = []
+        if error.node_type:
+            context_parts.append(f"**Node:** `{error.node_type}`")
+        if error.property_path:
+            context_parts.append(f"**Property:** `{error.property_path}`")
+        if error.line_number:
+            context_parts.append(f"**Line:** {error.line_number}")
+        if error.file_path:
+            context_parts.append(f"**File:** `{error.file_path}`")
+
+        if context_parts:
+            return f"\n**Context:** {', '.join(context_parts)}\n"
+        return ""
+
+    def _format_error_details(self, error: ValidationError) -> str:
+        """Format error expected/actual details."""
+        if error.expected and error.actual:
+            return "\n**Details:**\n" + f"- **Expected:** `{error.expected}`\n" + f"- **Actual:** `{error.actual}`\n"
+        elif error.expected:
+            return f"\n**Expected:** `{error.expected}`\n"
+        elif error.actual:
+            return f"\n**Actual:** `{error.actual}`\n"
+        return ""
 
     def format_summary(self, summary: ValidationSummary) -> str:
         """Format a validation summary as Markdown."""
@@ -111,7 +121,7 @@ class MarkdownFormatter(OutputFormatter):
             status_icon = "⚠️"
             status_text = "Warning"
         elif summary.has_info:
-            status_icon = "ℹ️"
+            status_icon = "i"
             status_text = "Info"
         else:
             status_icon = "✅"
@@ -145,7 +155,7 @@ class MarkdownFormatter(OutputFormatter):
         elif summary.has_warnings:
             markdown += f"⚠️ **Validation completed with {summary.total_warnings} warning{'s' if summary.total_warnings != 1 else ''}.**\n"
         else:
-            markdown += f"ℹ️ **Validation completed with {summary.total_info} info message{'s' if summary.total_info != 1 else ''}.**\n"
+            markdown += f"i **Validation completed with {summary.total_info} info message{'s' if summary.total_info != 1 else ''}.**\n"
 
         return markdown
 

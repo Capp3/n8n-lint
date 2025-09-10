@@ -1,0 +1,1 @@
+{"nodes": [{"id": "1", "name": "Test", "type": "n8n-nodes-base.function", "typeVersion": 1, "position": [100, 100], "parameters": {"functionCode": "return $input.all();"}}], "connections": {"1": {"main": []}}}

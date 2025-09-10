@@ -13,14 +13,14 @@ class TestSchemaManager:
 
     def test_schema_manager_initialization(self):
         """Test SchemaManager initialization."""
-        with patch("n8n_lint.schemas.SCHEMAS_DIR", Path("/tmp/test")):
-            with patch("n8n_lint.schemas.REGISTRY_FILE", Path("/tmp/test/registry.json")):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            with patch("n8n_lint.schemas.SCHEMAS_DIR", temp_path), patch("n8n_lint.schemas.REGISTRY_FILE", temp_path / "registry.json"), patch.object(Path, "exists", return_value=False):
                 # Mock registry file not existing
-                with patch.object(Path, "exists", return_value=False):
-                    manager = SchemaManager()
+                manager = SchemaManager()
 
-                    assert manager.registry == {}
-                    assert manager.schemas == {}
+                assert manager.registry == {}
+                assert manager.schemas == {}
 
     def test_load_registry_success(self):
         """Test successful registry loading."""
@@ -73,16 +73,15 @@ class TestSchemaManager:
 
         try:
             # Mock the schemas directory to contain our test files
-            with patch("n8n_lint.schemas.SCHEMAS_DIR", schema_path.parent):
-                with patch("n8n_lint.schemas.REGISTRY_FILE", registry_path):
-                    # Rename schema file to match registry
-                    test_schema_path = schema_path.parent / "test.json"
-                    schema_path.rename(test_schema_path)
+            with patch("n8n_lint.schemas.SCHEMAS_DIR", schema_path.parent), patch("n8n_lint.schemas.REGISTRY_FILE", registry_path):
+                # Rename schema file to match registry
+                test_schema_path = schema_path.parent / "test.json"
+                schema_path.rename(test_schema_path)
 
-                    manager = SchemaManager()
+                manager = SchemaManager()
 
-                    assert "test-node" in manager.schemas
-                    assert manager.schemas["test-node"] == schema_data
+                assert "test-node" in manager.schemas
+                assert manager.schemas["test-node"] == schema_data
         finally:
             # Cleanup
             if registry_path.exists():

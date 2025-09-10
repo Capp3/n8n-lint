@@ -68,27 +68,38 @@ class HTMLFormatter(OutputFormatter):
 
     def format_summary(self, summary: ValidationSummary) -> str:
         """Format a validation summary as HTML."""
-        # Determine summary class based on results
-        if summary.has_errors:
-            summary_class = "summary-error"
-            status_icon = "❌"
-        elif summary.has_warnings:
-            summary_class = "summary-warning"
-            status_icon = "⚠️"
-        elif summary.has_info:
-            summary_class = "summary-info"
-            status_icon = "ℹ️"
-        else:
-            summary_class = "summary-success"
-            status_icon = "✅"
+        summary_class, status_icon = self._get_summary_style(summary)
 
         html = f'<div class="validation-summary {summary_class}">'
-        html += '<div class="summary-header">'
-        html += f'<span class="status-icon">{status_icon}</span>'
-        html += '<span class="summary-title">Validation Summary</span>'
+        html += self._build_summary_header(status_icon)
+        html += self._build_summary_text(summary)
+        html += self._build_summary_info(summary)
         html += "</div>"
 
-        # Create summary text
+        return html
+
+    def _get_summary_style(self, summary: ValidationSummary) -> tuple[str, str]:
+        """Get summary class and status icon based on results."""
+        if summary.has_errors:
+            return "summary-error", "❌"
+        elif summary.has_warnings:
+            return "summary-warning", "⚠️"
+        elif summary.has_info:
+            return "summary-info", "i"
+        else:
+            return "summary-success", "✅"
+
+    def _build_summary_header(self, status_icon: str) -> str:
+        """Build the summary header HTML."""
+        return (
+            '<div class="summary-header">'
+            f'<span class="status-icon">{status_icon}</span>'
+            '<span class="summary-title">Validation Summary</span>'
+            "</div>"
+        )
+
+    def _build_summary_text(self, summary: ValidationSummary) -> str:
+        """Build the summary text HTML."""
         summary_parts = []
         if summary.total_errors > 0:
             summary_parts.append(f"{summary.total_errors} error{'s' if summary.total_errors != 1 else ''}")
@@ -102,9 +113,10 @@ class HTMLFormatter(OutputFormatter):
         else:
             summary_text = "Validation complete: No issues found"
 
-        html += f'<div class="summary-text">{summary_text}</div>'
+        return f'<div class="summary-text">{summary_text}</div>'
 
-        # Add additional information
+    def _build_summary_info(self, summary: ValidationSummary) -> str:
+        """Build the summary info HTML."""
         info_parts = []
         if summary.validation_time > 0:
             info_parts.append(f"Took {summary.validation_time:.2f}s")
@@ -112,10 +124,8 @@ class HTMLFormatter(OutputFormatter):
             info_parts.append(f"{summary.total_nodes} node{'s' if summary.total_nodes != 1 else ''} validated")
 
         if info_parts:
-            html += f'<div class="summary-info">{", ".join(info_parts)}</div>'
-
-        html += "</div>"
-        return html
+            return f'<div class="summary-info">{", ".join(info_parts)}</div>'
+        return ""
 
     def format_validation_result(self, errors: list[ValidationError], summary: ValidationSummary) -> str:
         """Format complete validation result as HTML."""
@@ -153,7 +163,7 @@ class HTMLFormatter(OutputFormatter):
         icons = {
             "error": "❌",
             "warning": "⚠️",
-            "info": "ℹ️",
+            "info": "i",
         }
         return icons.get(severity, "🔍")
 

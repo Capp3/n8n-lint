@@ -1,6 +1,6 @@
 [project]
 name = "n8n-lint"
-version = "0.0.1"
+version = "1.0.0"
 description = "Lint your n8n JSON here."
 readme = "README.md"
 authors = [
@@ -10,7 +10,7 @@ maintainers = [
   {name = "Dom Capparelli", email = "web@Capparelli.ie"}
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",

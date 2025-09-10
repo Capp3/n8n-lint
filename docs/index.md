@@ -1,19 +1,21 @@
-# Welcome to n8n-lint's documentation!
+# n8n-lint Documentation
 
-n8n-lint is a Python-based CLI tool for validating JSON structures within n8n workflows.
+n8n-lint is a Python CLI tool for validating n8n workflow JSON files.
 
 ## Quick Start
 
-- [Installation](installation.md) - Get started with n8n-lint
-- [Usage](usage.md) - Learn how to use the CLI tool
-- [Development](tasks.md) - Project status and tasks
+The main documentation is in the [README.md](../README.md) file, which contains:
+
+- Installation instructions
+- Usage examples
+- Command reference
+- Performance benchmarks
+- Supported node types
 
 ## Development
 
 - [Tasks](tasks.md) - Current project tasks and status
-- [Status](status.md) - Project status and metrics
-- [Testing & Linting Plan](testing-linting-plan.md) - Comprehensive testing and linting guide
-- [Archive](archive.md) - Archived documentation and decisions
+- [Archive](archive/) - Historical documentation and decisions
 
 ## Examples
 

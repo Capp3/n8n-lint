@@ -122,7 +122,7 @@ class TypeValidationRule(ValidationRule):
         elif expected_type == "integer":
             return isinstance(value, int)
         elif expected_type == "number":
-            return isinstance(value, (int, float))
+            return isinstance(value, int | float)
         elif expected_type == "string":
             return isinstance(value, str)
         elif expected_type == "array":
@@ -150,7 +150,7 @@ class UnknownPropertyRule(ValidationRule):
             return errors
 
         known_props = set(schema["properties"].keys())
-        for prop in data.keys():
+        for prop in data:
             if prop not in known_props:
                 errors.append(
                     ValidationError(
@@ -172,6 +172,7 @@ class ValidationEngine:
     def __init__(self, logger: N8nLogger):
         self.logger = logger
         self.rules: list[ValidationRule] = [RequiredPropertyRule(), TypeValidationRule(), UnknownPropertyRule()]
+        self._schema_cache: dict[str, dict[str, Any] | None] = {}  # Cache for schema lookups
 
     def validate_workflow(self, workflow_data: dict[str, Any], file_path: str | None = None) -> bool:
         """Validate an n8n workflow."""
@@ -226,8 +227,8 @@ class ValidationEngine:
             )
             return False
 
-        # Get schema for node type
-        schema = schema_manager.get_schema(node_type)
+        # Get schema for node type (with caching)
+        schema = self._get_cached_schema(node_type)
         if not schema:
             self.logger.log_warning(
                 f"No schema found for node type '{node_type}'",
@@ -270,6 +271,12 @@ class ValidationEngine:
                     )
 
         return all_valid
+
+    def _get_cached_schema(self, node_type: str) -> dict[str, Any] | None:
+        """Get schema with caching for better performance."""
+        if node_type not in self._schema_cache:
+            self._schema_cache[node_type] = schema_manager.get_schema(node_type)
+        return self._schema_cache[node_type]
 
 
 class JSONParser:
@@ -333,13 +340,15 @@ def validate_workflow_file(
     log_level: LogLevel = LogLevel.NORMAL,
     output_format: OutputFormat = OutputFormat.CONSOLE,
     plain_text: bool = False,
-    logger: N8nLogger = None,
+    logger: N8nLogger | None = None,
 ) -> int:
     """Validate an n8n workflow file and return exit code."""
 
     # Setup logger if not provided
     if logger is None:
-        logger = N8nLogger(log_level, output_format, plain_text)
+        # Disable progress for JSON output to avoid interfering with JSON parsing
+        show_progress = output_format != OutputFormat.JSON
+        logger = N8nLogger(log_level, output_format, plain_text, show_progress)
 
     # Parse JSON
     parser = JSONParser(logger)
@@ -359,7 +368,7 @@ def validate_workflow_file(
 
     # Validate workflow
     engine = ValidationEngine(logger)
-    is_valid = engine.validate_workflow(workflow_data, str(file_path))
+    engine.validate_workflow(workflow_data, str(file_path))
 
     # Complete progress tracking
     logger.complete_validation()

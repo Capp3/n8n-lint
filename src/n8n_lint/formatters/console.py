@@ -32,21 +32,30 @@ class ConsoleFormatter(OutputFormatter):
             return self._format_error_plain(error)
 
         text = Text()
+        self._add_severity_indicator(text, error)
+        self._add_error_message(text, error)
+        self._add_error_context(text, error)
+        self._add_error_details(text, error)
 
-        # Severity indicator with color
+        return str(text)
+
+    def _add_severity_indicator(self, text: Text, error: ValidationError) -> None:
+        """Add severity indicator to text."""
         if error.severity == "error":
             text.append("❌ ERROR: ", style=f"bold {self.colors['error']}")
         elif error.severity == "warning":
             text.append("⚠️  WARNING: ", style=f"bold {self.colors['warning']}")
         elif error.severity == "info":
-            text.append("ℹ️  INFO: ", style=f"bold {self.colors['info']}")
+            text.append("i  INFO: ", style=f"bold {self.colors['info']}")
         else:
             text.append(f"🔍 {error.severity.upper()}: ", style="bold")
 
-        # Main message
+    def _add_error_message(self, text: Text, error: ValidationError) -> None:
+        """Add error message to text."""
         text.append(error.message, style="bold")
 
-        # Additional context
+    def _add_error_context(self, text: Text, error: ValidationError) -> None:
+        """Add error context to text."""
         context_parts = []
         if error.node_type:
             context_parts.append(f"Node: {error.node_type}")
@@ -60,7 +69,8 @@ class ConsoleFormatter(OutputFormatter):
         if context_parts:
             text.append(f" ({', '.join(context_parts)})", style=f"dim {self.colors['context']}")
 
-        # Expected/Actual values
+    def _add_error_details(self, text: Text, error: ValidationError) -> None:
+        """Add expected/actual details to text."""
         if error.expected and error.actual:
             text.append(f"\n  Expected: {error.expected}", style=f"dim {self.colors['context']}")
             text.append(f"\n  Actual: {error.actual}", style=f"dim {self.colors['context']}")
@@ -68,8 +78,6 @@ class ConsoleFormatter(OutputFormatter):
             text.append(f"\n  Expected: {error.expected}", style=f"dim {self.colors['context']}")
         elif error.actual:
             text.append(f"\n  Actual: {error.actual}", style=f"dim {self.colors['context']}")
-
-        return str(text)
 
     def _format_error_plain(self, error: ValidationError) -> str:
         """Format error in plain text mode."""
@@ -119,7 +127,7 @@ class ConsoleFormatter(OutputFormatter):
 
         formatted_errors = []
 
-        for severity, group_errors in error_groups.items():
+        for _severity, group_errors in error_groups.items():
             if not group_errors:
                 continue
 
@@ -134,21 +142,28 @@ class ConsoleFormatter(OutputFormatter):
         if self.plain_text:
             return self._format_summary_plain(summary)
 
-        # Determine summary style based on results
-        if summary.has_errors:
-            border_style = self.colors["error"]
-            status_icon = "❌"
-        elif summary.has_warnings:
-            border_style = self.colors["warning"]
-            status_icon = "⚠️"
-        elif summary.has_info:
-            border_style = self.colors["info"]
-            status_icon = "ℹ️"
-        else:
-            border_style = self.colors["success"]
-            status_icon = "✅"
+        border_style, status_icon = self._get_summary_style(summary)
+        summary_text = self._build_summary_text(summary)
 
-        # Create summary text
+        panel = Panel(
+            summary_text, title=f"{status_icon} Validation Summary", border_style=border_style, padding=(1, 2)
+        )
+
+        return panel
+
+    def _get_summary_style(self, summary: ValidationSummary) -> tuple[str, str]:
+        """Get border style and status icon based on summary results."""
+        if summary.has_errors:
+            return self.colors["error"], "❌"
+        elif summary.has_warnings:
+            return self.colors["warning"], "⚠️"
+        elif summary.has_info:
+            return self.colors["info"], "i"
+        else:
+            return self.colors["success"], "✅"
+
+    def _build_summary_text(self, summary: ValidationSummary) -> str:
+        """Build the summary text with counts and timing."""
         summary_parts = []
         if summary.total_errors > 0:
             summary_parts.append(f"{summary.total_errors} error{'s' if summary.total_errors != 1 else ''}")
@@ -170,12 +185,7 @@ class ConsoleFormatter(OutputFormatter):
         if summary.total_nodes > 0:
             summary_text += f" - {summary.total_nodes} node{'s' if summary.total_nodes != 1 else ''} validated"
 
-        # Create panel
-        panel = Panel(
-            summary_text, title=f"{status_icon} Validation Summary", border_style=border_style, padding=(1, 2)
-        )
-
-        return str(panel)
+        return summary_text
 
     def _format_summary_plain(self, summary: ValidationSummary) -> str:
         """Format summary in plain text mode."""
@@ -208,8 +218,21 @@ class ConsoleFormatter(OutputFormatter):
         if errors:
             result_parts.append(self.format_errors(errors))
 
-        # Add summary
-        result_parts.append(self.format_summary(summary))
+        # Add summary - convert Panel to string for text output
+        summary_panel = self.format_summary(summary)
+        if hasattr(summary_panel, "__rich__"):
+            # It's a Rich object, convert to string
+            from io import StringIO
+
+            from rich.console import Console
+
+            console = Console(file=StringIO(), force_terminal=False)
+            console.print(summary_panel)
+            summary_text = console.file.getvalue()
+        else:
+            summary_text = str(summary_panel)
+
+        result_parts.append(summary_text)
 
         return "\n\n".join(result_parts)
 
@@ -219,8 +242,9 @@ class ConsoleFormatter(OutputFormatter):
         if errors:
             self.console.print(self.format_errors(errors))
 
-        # Add summary
-        self.console.print(self.format_summary(summary))
+        # Add summary - format_summary returns a Rich Panel object
+        summary_panel = self.format_summary(summary)
+        self.console.print(summary_panel)
 
     def format_progress(self, current: int, total: int, message: str = "") -> str:
         """Format progress information with Rich progress bar."""

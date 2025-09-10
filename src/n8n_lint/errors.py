@@ -44,7 +44,7 @@ class ValidationError:
         severity_symbol = {
             "error": "❌ ERROR:",
             "warning": "⚠️  WARNING:",
-            "info": "ℹ️  INFO:",
+            "info": "i  INFO:",
         }.get(self.severity, f"🔍 {self.severity.upper()}:")
 
         message = f"{severity_symbol} {self.message}"

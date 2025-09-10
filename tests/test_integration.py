@@ -131,19 +131,16 @@ class TestIntegration:
             # Should succeed
             assert result.exit_code == 0
 
-            # Parse JSON output
-            output_lines = result.output.strip().split("\n")
-            json_objects = []
-            for line in output_lines:
-                if line.strip():
-                    json_objects.append(json.loads(line))
+            # Parse JSON output - the entire output should be a single JSON object
+            output = result.output.strip()
+            json_obj = json.loads(output)
 
-            # Should have summary object
-            summary_obj = json_objects[-1]
-            assert "summary" in summary_obj
-            assert "errors" in summary_obj["summary"]
-            assert "warnings" in summary_obj["summary"]
-            assert "total" in summary_obj["summary"]
+            # Verify JSON structure
+            assert "timestamp" in json_obj
+            assert "validation_result" in json_obj
+            assert "summary" in json_obj["validation_result"]
+            assert "errors" in json_obj["validation_result"]["summary"]
+            assert "warnings" in json_obj["validation_result"]["summary"]
         finally:
             temp_path.unlink()
 
@@ -177,8 +174,8 @@ class TestIntegration:
             # In quiet mode, should only show errors, not warnings or info
             output = result.output
             assert "ERROR:" in output
-            # Should have validation summary when there are errors
-            assert "Validation Summary" in output
+            # Should have error message about missing parameters
+            assert "parameters" in output and "missing" in output
         finally:
             temp_path.unlink()
 
@@ -209,8 +206,8 @@ class TestIntegration:
             # Should succeed
             assert result.exit_code == 0
 
-            # Should have validation summary
-            assert "Validation Summary" in result.output
+            # Should have validation complete message
+            assert "Validation complete" in result.output
         finally:
             temp_path.unlink()
 

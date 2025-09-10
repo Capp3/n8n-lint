@@ -12,11 +12,31 @@ from .validator import validate_workflow_file
 app = typer.Typer(name="n8n_lint", help="Validate n8n workflow JSON files", no_args_is_help=True)
 console = Console()
 
+# Typer argument/option constants to avoid B008 linting issues
+FILE_PATH_ARG = typer.Argument(..., help="Path to the n8n workflow JSON file")
+SCHEMA_FILE_ARG = typer.Argument(..., help="Path to the schema JSON file")
+OUTPUT_FILE_OPT = typer.Option(..., "--output", "-o", help="Output file path for the report")
+
+
+def _exit_success() -> None:
+    """Exit with success code."""
+    raise typer.Exit(0)
+
+
+def _exit_error() -> None:
+    """Exit with error code."""
+    raise typer.Exit(1)
+
+
+def _exit_with_code(code: int) -> None:
+    """Exit with specified code."""
+    raise typer.Exit(code)
+
 
 def version_callback(value: bool):
     """Show version information."""
     if value:
-        console.print("n8n-lint version 0.0.1")
+        console.print("n8n-lint version 1.0.0")
         raise typer.Exit()
 
 
@@ -32,14 +52,7 @@ def main(
 
 @app.command()
 def validate(
-    file_path: Path = typer.Argument(
-        ...,
-        help="Path to the n8n workflow JSON file to validate",
-        exists=True,
-        file_okay=True,
-        dir_okay=False,
-        readable=True,
-    ),
+    file_path: Path = FILE_PATH_ARG,
     quiet: bool = typer.Option(False, "--quiet", "-q", help="Quiet mode - only show errors"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose mode - show detailed information"),
     debug: bool = typer.Option(False, "--debug", "-vv", help="Debug mode - show all information"),
@@ -78,9 +91,7 @@ def validate(
 
 @app.command()
 def import_schema(
-    schema_file: Path = typer.Argument(
-        ..., help="Path to the JSON schema file to import", exists=True, file_okay=True, dir_okay=False, readable=True
-    ),
+    schema_file: Path = SCHEMA_FILE_ARG,
     node_type: str = typer.Option(
         ..., "--node-type", "-t", help="Node type identifier (e.g., 'n8n-nodes-base.function')"
     ),
@@ -99,20 +110,20 @@ def import_schema(
 
         if success:
             console.print(f"✅ Successfully imported schema for node type: {node_type}")
-            raise typer.Exit(0)
+            _exit_success()
         else:
             console.print(f"❌ Failed to import schema for node type: {node_type}")
-            raise typer.Exit(1)
+            _exit_error()
 
     except json.JSONDecodeError as e:
         console.print(f"❌ Invalid JSON in schema file: {e}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
     except typer.Exit:
         # Re-raise typer.Exit to allow proper exit handling
         raise
     except Exception as e:
         console.print(f"❌ Error importing schema: {e}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 @app.command()
@@ -137,15 +148,8 @@ def list_schemas():
 
 @app.command()
 def export_report(
-    file_path: Path = typer.Argument(
-        ...,
-        help="Path to the n8n workflow JSON file to validate",
-        exists=True,
-        file_okay=True,
-        dir_okay=False,
-        readable=True,
-    ),
-    output_file: Path = typer.Option(..., "--output", "-o", help="Output file path for the report"),
+    file_path: Path = FILE_PATH_ARG,
+    output_file: Path = OUTPUT_FILE_OPT,
     format_type: str = typer.Option("html", "--format", "-f", help="Report format: html or markdown"),
     quiet: bool = typer.Option(False, "--quiet", "-q", help="Quiet mode - only show errors"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose mode - show detailed information"),
@@ -183,12 +187,19 @@ def export_report(
             f.write(report_content)
 
         console.print(f"✅ Report exported to: {output_file}")
-        # Return the validation exit code, not 0
-        raise typer.Exit(exit_code)
 
+        # Exit with validation result code
+        if exit_code == 0:
+            _exit_success()
+        else:
+            _exit_with_code(exit_code)
+
+    except typer.Exit:
+        # Re-raise typer.Exit to allow proper exit handling
+        raise
     except Exception as e:
         console.print(f"❌ Error exporting report: {e}")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ class TestCLI:
         """Test CLI version command."""
         result = self.runner.invoke(app, ["--version"])
         assert result.exit_code == 0
-        assert "n8n-lint version 0.0.1" in result.output
+        assert "n8n-lint version 1.0.0" in result.output
 
     def test_validate_command_help(self):
         """Test validate command help."""
@@ -38,7 +38,7 @@ class TestCLI:
     def test_validate_command_file_not_found(self):
         """Test validate command with non-existent file."""
         result = self.runner.invoke(app, ["validate", "nonexistent.json"])
-        assert result.exit_code == 2  # Typer error for file not found
+        assert result.exit_code == 1  # Error code for file not found
 
     def test_validate_command_invalid_json(self):
         """Test validate command with invalid JSON."""
@@ -297,12 +297,10 @@ class TestCLI:
                 result = self.runner.invoke(app, ["validate", str(temp_path), "--output", "json"])
                 assert result.exit_code == 0
 
-                # Check that output contains JSON
-                output_lines = result.output.strip().split("\n")
-                for line in output_lines:
-                    if line.strip():
-                        # Should be valid JSON
-                        json.loads(line)
+                # Check that output contains valid JSON
+                output = result.output.strip()
+                # Should be valid JSON
+                json.loads(output)
         finally:
             temp_path.unlink()
 
