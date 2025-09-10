@@ -268,7 +268,7 @@ Successfully consolidated and simplified the n8n-lint project documentation from
 - **Tasks Document**: [docs/tasks.md](../tasks.md)
 - **Status Document**: [docs/status.md](../status.md)
 - **Archive README**: [docs/archive/README.md](README.md)
-- **Main README**: [README.md](../../README.md)
+- **Main README**: README.md (in project root)
 
 ## Conclusion
 

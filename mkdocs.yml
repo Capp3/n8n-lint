@@ -53,14 +53,12 @@ plugins:
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Usage: usage.md
   - Development:
       - Tasks: tasks.md
       - Status: status.md
-      - Testing & Linting Plan: testing-linting-plan.md
-      - Official Node Coverage Plan: official-node-coverage-plan.md
-      - Archive: archive.md
+  - Archive:
+      - Overview: archive/README.md
+      - Documentation Consolidation: archive/documentation-consolidation-20250910.md
   - Examples:
       - Sample Workflow: examples/sample_workflow.json
       - Workflow with Errors: examples/workflow_with_errors.json
@@ -80,9 +78,10 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.snippets
-  - pymdownx.emoji:
-      emoji_index: material.extensions.emoji.twemoji
-      emoji_generator: material.extensions.emoji.to_svg
+  # Temporarily disable emoji extension due to compatibility issues
+  # - pymdownx.emoji:
+  #     emoji_index: pymdownx.emoji.twemoji
+  #     emoji_generator: pymdownx.emoji.to_svg
   - pymdownx.superfences
   - pymdownx.arithmatex
   - pymdownx.critic

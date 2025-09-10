@@ -4,7 +4,7 @@ n8n-lint is a Python CLI tool for validating n8n workflow JSON files.
 
 ## Quick Start
 
-The main documentation is in the [README.md](../README.md) file, which contains:
+The main documentation is in the README.md file in the project root, which contains:
 
 - Installation instructions
 - Usage examples
@@ -15,7 +15,7 @@ The main documentation is in the [README.md](../README.md) file, which contains:
 ## Development
 
 - [Tasks](tasks.md) - Current project tasks and status
-- [Archive](archive/) - Historical documentation and decisions
+- [Archive](archive/README.md) - Historical documentation and decisions
 
 ## Examples
 
