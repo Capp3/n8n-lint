@@ -27,7 +27,7 @@ class TestCLI:
         """Test CLI version command."""
         result = self.runner.invoke(app, ["--version"])
         assert result.exit_code == 0
-        assert "n8n-lint version 1.1.0" in result.output
+        assert "n8n-lint version 1.1.1" in result.output
 
     def test_validate_command_help(self):
         """Test validate command help."""
