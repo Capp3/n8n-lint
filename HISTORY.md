@@ -1,6 +1,6 @@
 # History
 
-## 1.1.0 (2025-09-13)
+## 1.1.1 (2025-09-13)
 
 ### Major Release - Mono Package Architecture & PyPI Deployment
 
@@ -30,15 +30,15 @@
 ```bash
 pip install n8n-lint
 # or
-uvx n8n_lint validate workflow.json
+uvx n8n-lint validate workflow.json
 ```
 
 #### 🎯 Usage
 
 ```bash
-n8n_lint validate workflow.json
-n8n_lint import-schema schema.json --node-type custom.node
-n8n_lint export-report workflow.json --output report.html
+n8n-lint validate workflow.json
+n8n-lint import-schema schema.json --node-type custom.node
+n8n-lint export-report workflow.json --output report.html
 ```
 
 #### 🔗 Resources

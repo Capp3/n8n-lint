@@ -63,22 +63,14 @@ n8n_lint validate my-workflow.json
 
 - [Installation Guide](user-guide/installation.md) - Complete installation instructions
 - [Basic Usage](user-guide/basic-usage.md) - Getting started with n8n-lint
-- [Examples](user-guide/examples.md) - Common usage patterns and examples
-- [Troubleshooting](user-guide/troubleshooting.md) - Common issues and solutions
 
 ### CLI Reference
 
 - [Command Overview](cli-reference/index.md) - All available commands
-- [validate](cli-reference/validate.md) - Validate workflow files
-- [import-schema](cli-reference/import-schema.md) - Import custom schemas
-- [list-schemas](cli-reference/list-schemas.md) - List available schemas
-- [export-report](cli-reference/export-report.md) - Export validation reports
 
 ### Developer Documentation
 
 - [API Reference](api-reference/index.md) - Complete API documentation
-- [Contributing](developer/contributing.md) - How to contribute to the project
-- [Architecture](developer/architecture.md) - System architecture overview
 - [Development Setup](developer/development-setup.md) - Local development environment
 
 ## 🎯 Use Cases
@@ -106,7 +98,7 @@ n8n_lint validate workflow.json --quiet
 
 ## 📦 Package Information
 
-- **Version**: 1.1.0
+- **Version**: 1.1.1
 - **Python**: 3.12+
 - **Dependencies**: typer, rich, jsonschema
 - **License**: MIT
@@ -119,4 +111,4 @@ Ready to validate your n8n workflows? [Install n8n-lint](user-guide/installation
 
 ---
 
-_Need help? Check out our [Troubleshooting Guide](user-guide/troubleshooting.md) or [open an issue](https://github.com/capp3/n8n_lint/issues)._
+_Need help? [Open an issue](https://github.com/capp3/n8n_lint/issues) or check the [CLI Reference](cli-reference/index.md)._

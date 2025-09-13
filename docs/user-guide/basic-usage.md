@@ -190,6 +190,5 @@ find . -name "*.json" -exec n8n_lint validate {} \;
 
 ## Next Steps
 
-- [Examples](examples.md) - See real-world usage examples
+- [Examples](../examples/sample_workflow.json) - See real-world usage examples
 - [CLI Reference](../cli-reference/index.md) - Complete command documentation
-- [Troubleshooting](troubleshooting.md) - Common issues and solutions

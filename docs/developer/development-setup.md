@@ -281,6 +281,5 @@ uv build
 
 ## Next Steps
 
-- [Contributing Guide](contributing.md) - Learn how to contribute
-- [Architecture Overview](architecture.md) - Understand the system
-- [Testing Strategy](testing-strategy.md) - Learn about testing
+- [GitHub Repository](https://github.com/capp3/n8n_lint) - Source code and issues
+- [API Reference](../api-reference/index.md) - Complete API documentation

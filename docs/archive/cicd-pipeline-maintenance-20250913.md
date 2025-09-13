@@ -89,12 +89,6 @@ Systematic resolution of each category of CI/CD issues:
 
 ## References
 
-- [Reflection Document](../reflection.md)
-- [Tasks Documentation](../tasks.md)
-- [GitHub Actions Workflow](../../.github/workflows/ci.yml)
-- [MyPy Configuration](../../pyproject.toml)
-- [Ruff Configuration](../../pyproject.toml)
-
 ## Archive Status
 
 - **Status**: COMPLETED

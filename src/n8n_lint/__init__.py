@@ -2,7 +2,7 @@
 
 __author__ = """Dom Capparelli"""
 __email__ = "web@Capparelli.ie"
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 # Clean public API imports
 from .core import LogLevel, N8nLogger, OutputFormat, ValidationError, validate_workflow_file

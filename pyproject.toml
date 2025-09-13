@@ -1,6 +1,6 @@
 [project]
 name = "n8n-lint"
-version = "1.1.0"
+version = "1.1.1"
 description = "Lint your n8n JSON here."
 readme = "README.md"
 authors = [
@@ -62,7 +62,7 @@ changelog = "https://github.com/capp3/n8n_lint/blob/master/changelog.md"
 homepage = "https://github.com/capp3/n8n_lint"
 
 [project.scripts]
-n8n_lint = "n8n_lint.cli.main:app"
+n8n-lint = "n8n_lint.cli.main:app"
 
 [tool.ruff]
 target-version = "py312"

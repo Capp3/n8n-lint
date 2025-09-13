@@ -102,5 +102,3 @@ extra:
       link: https://github.com/capp3/n8n_lint
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/n8n-lint/
-  version:
-    provider: mike

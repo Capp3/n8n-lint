@@ -5,37 +5,33 @@ Welcome to the n8n-lint developer documentation! This section provides comprehen
 ## Getting Started
 
 - [Development Setup](development-setup.md) - Setting up your development environment
-- [Contributing](contributing.md) - How to contribute to the project
-- [Architecture](architecture.md) - System architecture overview
-- [Release Process](release-process.md) - How releases are managed
 
-## Technical Documentation
+## Resources
 
-- [Package Structure](package-structure.md) - Mono package architecture
-- [Validation Engine](validation-engine.md) - Core validation logic
-- [CLI Interface](cli-interface.md) - Command-line interface implementation
-- [Testing Strategy](testing-strategy.md) - Testing approach and coverage
+- [GitHub Repository](https://github.com/capp3/n8n_lint) - Source code and issues
+- [PyPI Package](https://pypi.org/project/n8n-lint/) - Published package
+- [API Reference](../api-reference/index.md) - Complete API documentation
 
-## Development Workflow
+## Development Information
 
-- [Git Workflow](git-workflow.md) - Git branching and commit strategies
-- [Code Style](code-style.md) - Coding standards and formatting
-- [Documentation Standards](documentation-standards.md) - Documentation guidelines
+This project uses:
 
-## API Development
+- **Python 3.12+** - Modern Python features
+- **UV** - Fast package management
+- **Typer** - CLI framework
+- **Rich** - Beautiful console output
+- **Pytest** - Testing framework
+- **Ruff** - Linting and formatting
+- **MyPy** - Type checking
 
-- [Extending Validators](extending-validators.md) - Adding new validation rules
-- [Custom Formatters](custom-formatters.md) - Creating new output formats
-- [Schema Management](schema-management.md) - Working with node schemas
+## Contributing
 
-## Build and Deployment
+To contribute to this project:
 
-- [Build Process](build-process.md) - Package building and distribution
-- [CI/CD Pipeline](cicd-pipeline.md) - Continuous integration setup
-- [PyPI Deployment](pypi-deployment.md) - Publishing to PyPI
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
 
-## Troubleshooting
-
-- [Common Issues](common-issues.md) - Development troubleshooting
-- [Debugging](debugging.md) - Debugging techniques
-- [Performance Optimization](performance-optimization.md) - Performance tuning
+See the [Development Setup](development-setup.md) guide for detailed instructions.

@@ -18,7 +18,7 @@ These options are available for all commands:
 Validate an n8n workflow JSON file.
 
 ```bash
-n8n_lint validate [OPTIONS] FILE_PATH
+n8n-lint validate [OPTIONS] FILE_PATH
 ```
 
 **Arguments:**
@@ -38,16 +38,16 @@ n8n_lint validate [OPTIONS] FILE_PATH
 
 ```bash
 # Basic validation
-n8n_lint validate workflow.json
+n8n-lint validate workflow.json
 
 # JSON output for automation
-n8n_lint validate workflow.json --output json
+n8n-lint validate workflow.json --output json
 
 # Quiet mode
-n8n_lint validate workflow.json --quiet
+n8n-lint validate workflow.json --quiet
 
 # Verbose mode
-n8n_lint validate workflow.json --verbose
+n8n-lint validate workflow.json --verbose
 ```
 
 ### import-schema
@@ -55,7 +55,7 @@ n8n_lint validate workflow.json --verbose
 Import a new node schema for validation.
 
 ```bash
-n8n_lint import-schema [OPTIONS] SCHEMA_FILE
+n8n-lint import-schema [OPTIONS] SCHEMA_FILE
 ```
 
 **Arguments:**
@@ -71,10 +71,10 @@ n8n_lint import-schema [OPTIONS] SCHEMA_FILE
 
 ```bash
 # Import custom schema
-n8n_lint import-schema custom-schema.json --node-type my.custom.node
+n8n-lint import-schema custom-schema.json --node-type my.custom.node
 
 # Import official node schema
-n8n_lint import-schema http-request-schema.json --node-type n8n-nodes-base.httpRequest
+n8n-lint import-schema http-request-schema.json --node-type n8n-nodes-base.httpRequest
 ```
 
 ### list-schemas
@@ -82,14 +82,14 @@ n8n_lint import-schema http-request-schema.json --node-type n8n-nodes-base.httpR
 List all available node schemas.
 
 ```bash
-n8n_lint list-schemas
+n8n-lint list-schemas
 ```
 
 **Examples:**
 
 ```bash
 # List all schemas
-n8n_lint list-schemas
+n8n-lint list-schemas
 
 # Output example:
 # Available node schemas:
@@ -103,7 +103,7 @@ n8n_lint list-schemas
 Export validation report in HTML or Markdown format.
 
 ```bash
-n8n_lint export-report [OPTIONS] FILE_PATH OUTPUT_FILE
+n8n-lint export-report [OPTIONS] FILE_PATH OUTPUT_FILE
 ```
 
 **Arguments:**
@@ -123,13 +123,13 @@ n8n_lint export-report [OPTIONS] FILE_PATH OUTPUT_FILE
 
 ```bash
 # Export HTML report
-n8n_lint export-report workflow.json report.html --format html
+n8n-lint export-report workflow.json report.html --format html
 
 # Export Markdown report
-n8n_lint export-report workflow.json report.md --format markdown
+n8n-lint export-report workflow.json report.md --format markdown
 
 # Export with verbose output
-n8n_lint export-report workflow.json report.html --verbose
+n8n-lint export-report workflow.json report.html --verbose
 ```
 
 ## Exit Codes
@@ -173,10 +173,10 @@ n8n-lint supports shell completion for Bash, Zsh, and Fish:
 
 ```bash
 # Install completion for current shell
-n8n_lint --install-completion
+n8n-lint --install-completion
 
 # Show completion script
-n8n_lint --show-completion
+n8n-lint --show-completion
 ```
 
 ## Examples
@@ -184,31 +184,30 @@ n8n_lint --show-completion
 ### Basic Validation
 
 ```bash
-n8n_lint validate workflow.json
+n8n-lint validate workflow.json
 ```
 
 ### CI/CD Pipeline
 
 ```bash
-n8n_lint validate workflow.json --output json --quiet
+n8n-lint validate workflow.json --output json --quiet
 ```
 
 ### Development Workflow
 
 ```bash
-n8n_lint validate workflow.json --verbose
-n8n_lint export-report workflow.json report.html --format html
+n8n-lint validate workflow.json --verbose
+n8n-lint export-report workflow.json report.html --format html
 ```
 
 ### Custom Schema Workflow
 
 ```bash
-n8n_lint import-schema my-schema.json --node-type my.custom.node
-n8n_lint validate workflow-with-custom-nodes.json
+n8n-lint import-schema my-schema.json --node-type my.custom.node
+n8n-lint validate workflow-with-custom-nodes.json
 ```
 
 ## Related Documentation
 
 - [Basic Usage Guide](../user-guide/basic-usage.md) - Getting started
-- [Examples](../user-guide/examples.md) - Real-world examples
-- [Troubleshooting](../user-guide/troubleshooting.md) - Common issues
+- [Examples](../examples/sample_workflow.json) - Real-world examples

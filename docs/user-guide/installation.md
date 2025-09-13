@@ -172,13 +172,12 @@ pyenv local 3.12.0
 After successful installation:
 
 1. [Basic Usage Guide](basic-usage.md) - Learn how to validate workflows
-2. [Examples](examples.md) - See common usage patterns
+2. [Examples](../examples/sample_workflow.json) - See common usage patterns
 3. [CLI Reference](../cli-reference/index.md) - Complete command documentation
 
 ## Support
 
 If you encounter installation issues:
 
-- Check the [Troubleshooting Guide](troubleshooting.md)
+- Check the [CLI Reference](../cli-reference/index.md)
 - [Open an issue](https://github.com/capp3/n8n_lint/issues)
-- [Check the FAQ](../faq.md)

@@ -36,7 +36,7 @@ def _exit_with_code(code: int) -> None:
 def version_callback(value: bool):
     """Show version information."""
     if value:
-        console.print("n8n-lint version 1.1.0")
+        console.print("n8n-lint version 1.1.1")
         raise typer.Exit()
 
 
