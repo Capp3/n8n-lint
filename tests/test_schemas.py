@@ -15,7 +15,11 @@ class TestSchemaManager:
         """Test SchemaManager initialization."""
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = Path(temp_dir)
-            with patch("n8n_lint.schemas.SCHEMAS_DIR", temp_path), patch("n8n_lint.schemas.REGISTRY_FILE", temp_path / "registry.json"), patch.object(Path, "exists", return_value=False):
+            with (
+                patch("n8n_lint.schemas.SCHEMAS_DIR", temp_path),
+                patch("n8n_lint.schemas.REGISTRY_FILE", temp_path / "registry.json"),
+                patch.object(Path, "exists", return_value=False),
+            ):
                 # Mock registry file not existing
                 manager = SchemaManager()
 
@@ -73,7 +77,10 @@ class TestSchemaManager:
 
         try:
             # Mock the schemas directory to contain our test files
-            with patch("n8n_lint.schemas.SCHEMAS_DIR", schema_path.parent), patch("n8n_lint.schemas.REGISTRY_FILE", registry_path):
+            with (
+                patch("n8n_lint.schemas.SCHEMAS_DIR", schema_path.parent),
+                patch("n8n_lint.schemas.REGISTRY_FILE", registry_path),
+            ):
                 # Rename schema file to match registry
                 test_schema_path = schema_path.parent / "test.json"
                 schema_path.rename(test_schema_path)

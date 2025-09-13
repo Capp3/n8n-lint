@@ -98,6 +98,19 @@
 - [x] **Code Complexity Reduction** - Refactored complex functions into smaller, maintainable methods
 - [x] **Type Safety Improvements** - All type hints are properly implemented
 - [x] **Test Coverage Validation** - 88%+ coverage maintained with all tests passing
+- [x] **CI/CD Pipeline Fixes** - Fixed Safety CLI interactive prompt and Ruff formatting issues
+
+### Phase 1.5: CI/CD Pipeline Maintenance (COMPLETE) ✅
+
+#### CI/CD Issues Resolved
+
+- [x] **Safety CLI Interactive Prompt** - Changed from `safety scan` to `safety check --json` with non-interactive configuration
+- [x] **Ruff Formatting Issues** - Fixed formatting in 4 files:
+  - `src/n8n_lint/__init__.py` - Fixed quote consistency
+  - `src/n8n_lint/progress/tracker.py` - Added trailing comma in Progress constructor
+  - `tests/test_logger_fix.py` - Removed leading blank line
+  - `tests/test_schemas.py` - Fixed long line with proper parentheses grouping
+- [x] **GitHub Actions Configuration** - Updated CI workflow to use non-interactive Safety CLI commands
 
 ### Phase 2: Production Readiness (COMPLETE) ✅
 

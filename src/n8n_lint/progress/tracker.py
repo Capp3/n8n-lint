@@ -38,7 +38,7 @@ class ProgressTracker:
             TextColumn("({task.completed}/{task.total})"),
             TimeElapsedColumn(),
             console=self.console,
-            transient=False
+            transient=False,
         )
 
     def start_validation(self, total_nodes: int, file_path: str = "") -> None:
@@ -54,10 +54,7 @@ class ProgressTracker:
                 self.console.print(f"Starting validation of {total_nodes} nodes...")
             else:
                 self.progress.start()
-                self.task_id = self.progress.add_task(
-                    f"Validating {file_path or 'workflow'}",
-                    total=total_nodes
-                )
+                self.task_id = self.progress.add_task(f"Validating {file_path or 'workflow'}", total=total_nodes)
 
     def update_progress(self, node_name: str, node_type: str = "") -> None:
         """Update progress for current node."""
@@ -72,7 +69,7 @@ class ProgressTracker:
                     self.progress.update(
                         self.task_id,
                         completed=self.completed_nodes,
-                        description=f"Validating {node_name} ({node_type})"
+                        description=f"Validating {node_name} ({node_type})",
                     )
 
     def complete_validation(self) -> None:
@@ -85,11 +82,7 @@ class ProgressTracker:
                 self.console.print(f"Validation completed in {elapsed:.2f}s")
             else:
                 if self.progress and self.task_id is not None:
-                    self.progress.update(
-                        self.task_id,
-                        completed=self.total_nodes,
-                        description="Validation complete"
-                    )
+                    self.progress.update(self.task_id, completed=self.total_nodes, description="Validation complete")
                     # Give a moment to show completion
                     time.sleep(0.5)
                     self.progress.stop()

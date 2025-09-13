@@ -101,8 +101,10 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-groups
 
-      - name: Run safety scan
-        run: uv run --group security safety scan
+      - name: Run safety check
+        run: uv run --group security safety check --json
+        env:
+          SAFETY_IGNORE_UNKNOWN: true
 
       - name: Run bandit security linter
         run: uv run --group security bandit -r src/

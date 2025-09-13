@@ -1,4 +1,3 @@
-
 def test_print_summary_json_format():
     """Test summary printing in JSON format."""
     import io
