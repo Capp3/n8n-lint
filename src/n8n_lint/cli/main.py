@@ -6,7 +6,7 @@ import typer
 from rich.console import Console
 
 from ..core.logger import LogLevel, OutputFormat
-from ..core.validator import validate_workflow_file
+from ..core.validator import ValidationMode, validate_workflow_file
 from ..schemas import schema_manager
 
 app = typer.Typer(name="n8n_lint", help="Validate n8n workflow JSON files", no_args_is_help=True)
@@ -36,7 +36,7 @@ def _exit_with_code(code: int) -> None:
 def version_callback(value: bool):
     """Show version information."""
     if value:
-        console.print("n8n-lint version 1.1.1")
+        console.print("n8n-lint version 1.1.2")
         raise typer.Exit()
 
 
@@ -58,8 +58,9 @@ def validate(
     debug: bool = typer.Option(False, "--debug", "-vv", help="Debug mode - show all information"),
     output: str = typer.Option("console", "--output", "-o", help="Output format: console, json, html, or markdown"),
     plain_text: bool = typer.Option(False, "--plain-text", help="Use plain text output instead of Rich formatting"),
+    deep: bool = typer.Option(False, "--deep", help="Use deep validation (schema-based) instead of general validation"),
 ):
-    """Validate an n8n workflow JSON file."""
+    """Validate an n8n workflow JSON file with general structure validation."""
 
     # Determine log level
     if debug:
@@ -80,9 +81,59 @@ def validate(
     else:
         output_format = OutputFormat.CONSOLE
 
+    # Determine validation mode
+    validation_mode = ValidationMode.DEEP if deep else ValidationMode.GENERAL
+
     # Validate the workflow file
     exit_code = validate_workflow_file(
-        file_path=file_path, log_level=log_level, output_format=output_format, plain_text=plain_text
+        file_path=file_path,
+        log_level=log_level,
+        output_format=output_format,
+        plain_text=plain_text,
+        validation_mode=validation_mode,
+    )
+
+    # Exit with appropriate code
+    raise typer.Exit(exit_code)
+
+
+@app.command()
+def deep_validate(
+    file_path: Path = FILE_PATH_ARG,
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Quiet mode - only show errors"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose mode - show detailed information"),
+    debug: bool = typer.Option(False, "--debug", "-vv", help="Debug mode - show all information"),
+    output: str = typer.Option("console", "--output", "-o", help="Output format: console, json, html, or markdown"),
+    plain_text: bool = typer.Option(False, "--plain-text", help="Use plain text output instead of Rich formatting"),
+):
+    """Perform deep validation with schema-based node type checking."""
+
+    # Determine log level
+    if debug:
+        log_level = LogLevel.DEBUG
+    elif verbose:
+        log_level = LogLevel.VERBOSE
+    elif quiet:
+        log_level = LogLevel.QUIET
+    else:
+        log_level = LogLevel.NORMAL
+
+    # Determine output format
+    output_lower = output.lower()
+    if output_lower == "json":
+        output_format = OutputFormat.JSON
+    elif output_lower in ["html", "markdown"]:
+        output_format = OutputFormat.CONSOLE  # Use console formatter for now
+    else:
+        output_format = OutputFormat.CONSOLE
+
+    # Validate the workflow file with deep validation
+    exit_code = validate_workflow_file(
+        file_path=file_path,
+        log_level=log_level,
+        output_format=output_format,
+        plain_text=plain_text,
+        validation_mode=ValidationMode.DEEP,
     )
 
     # Exit with appropriate code

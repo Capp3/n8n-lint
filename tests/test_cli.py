@@ -27,7 +27,7 @@ class TestCLI:
         """Test CLI version command."""
         result = self.runner.invoke(app, ["--version"])
         assert result.exit_code == 0
-        assert "n8n-lint version 1.1.1" in result.output
+        assert "n8n-lint version 1.1.2" in result.output
 
     def test_validate_command_help(self):
         """Test validate command help."""
@@ -129,7 +129,7 @@ class TestCLI:
                     },
                 }
 
-                result = self.runner.invoke(app, ["validate", str(temp_path)])
+                result = self.runner.invoke(app, ["validate", str(temp_path), "--deep"])
                 assert result.exit_code == 1  # Error exit code
                 assert "ERROR:" in result.output
         finally:

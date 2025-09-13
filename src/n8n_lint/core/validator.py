@@ -2,12 +2,20 @@
 
 import json
 from abc import ABC, abstractmethod
+from enum import Enum
 from pathlib import Path
 from typing import Any
 
 from ..schemas import schema_manager
 from .errors import ValidationError
 from .logger import LogLevel, N8nLogger, OutputFormat
+
+
+class ValidationMode(Enum):
+    """Validation mode enumeration."""
+
+    GENERAL = "general"
+    DEEP = "deep"
 
 
 class ValidationRule(ABC):
@@ -166,12 +174,107 @@ class UnknownPropertyRule(ValidationRule):
         return errors
 
 
+class GeneralNodeValidationRule(ValidationRule):
+    """Validates common properties present in all n8n nodes."""
+
+    def __init__(self):
+        super().__init__("general_node", "Validates common node properties")
+
+    def validate(self, data: Any, context: dict[str, Any]) -> list[ValidationError]:
+        """Validate common node properties."""
+        errors: list[ValidationError] = []
+
+        if not isinstance(data, dict):
+            return errors
+
+        # Required properties for all nodes
+        required_props = {"id": str, "name": str, "type": str, "typeVersion": (int, float), "position": list}
+
+        # Validate each required property
+        for prop, expected_type in required_props.items():
+            if prop not in data:
+                errors.append(
+                    ValidationError(
+                        message=f"Required property '{prop}' is missing",
+                        severity="error",
+                        node_type=context.get("node_type"),
+                        property_path=prop,
+                        expected="present",
+                        actual="missing",
+                        file_path=context.get("file_path"),
+                        line_number=context.get("line_number"),
+                    )
+                )
+            elif not self._is_valid_type(data[prop], expected_type):
+                errors.append(
+                    ValidationError(
+                        message=f"Property '{prop}' must be {expected_type.__name__ if hasattr(expected_type, '__name__') else str(expected_type)}",
+                        severity="error",
+                        node_type=context.get("node_type"),
+                        property_path=prop,
+                        expected=str(expected_type),
+                        actual=type(data[prop]).__name__,
+                        file_path=context.get("file_path"),
+                        line_number=context.get("line_number"),
+                    )
+                )
+
+        # Validate position array specifically
+        if "position" in data and isinstance(data["position"], list):
+            if len(data["position"]) != 2:
+                errors.append(
+                    ValidationError(
+                        message="Property 'position' must be an array with exactly 2 numbers",
+                        severity="error",
+                        node_type=context.get("node_type"),
+                        property_path="position",
+                        expected="array with 2 numbers",
+                        actual=f"array with {len(data['position'])} items",
+                        file_path=context.get("file_path"),
+                        line_number=context.get("line_number"),
+                    )
+                )
+            else:
+                # Check that position items are numbers
+                for i, item in enumerate(data["position"]):
+                    if not isinstance(item, int | float):
+                        errors.append(
+                            ValidationError(
+                                message=f"Position item {i} must be a number",
+                                severity="error",
+                                node_type=context.get("node_type"),
+                                property_path=f"position[{i}]",
+                                expected="number",
+                                actual=type(item).__name__,
+                                file_path=context.get("file_path"),
+                                line_number=context.get("line_number"),
+                            )
+                        )
+
+        return errors
+
+    def _is_valid_type(self, value: Any, expected_type: Any) -> bool:
+        """Check if value matches expected type."""
+        if isinstance(expected_type, tuple):
+            return isinstance(value, expected_type)
+        else:
+            return isinstance(value, expected_type)
+
+
 class ValidationEngine:
     """Main validation engine that coordinates rules."""
 
-    def __init__(self, logger: N8nLogger):
+    def __init__(self, logger: N8nLogger, validation_mode: ValidationMode = ValidationMode.DEEP):
         self.logger = logger
-        self.rules: list[ValidationRule] = [RequiredPropertyRule(), TypeValidationRule(), UnknownPropertyRule()]
+        self.validation_mode = validation_mode
+
+        # Set up rules based on validation mode
+        self.rules: list[ValidationRule]
+        if validation_mode == ValidationMode.GENERAL:
+            self.rules = [GeneralNodeValidationRule()]
+        else:  # DEEP mode
+            self.rules = [RequiredPropertyRule(), TypeValidationRule(), UnknownPropertyRule()]
+
         self._schema_cache: dict[str, dict[str, Any] | None] = {}  # Cache for schema lookups
 
     def validate_workflow(self, workflow_data: dict[str, Any], file_path: str | None = None) -> bool:
@@ -220,27 +323,33 @@ class ValidationEngine:
             return False
 
         # Get node type
-        node_type = node.get("type")
-        if not node_type:
-            self.logger.log_error(
-                f"Node {node_index} missing 'type' property", file_path=file_path, line_number=node_index + 1
-            )
-            return False
+        node_type = node.get("type", "unknown")
 
-        # Get schema for node type (with caching)
-        schema = self._get_cached_schema(node_type)
-        if not schema:
-            self.logger.log_warning(
-                f"No schema found for node type '{node_type}'",
-                node_type=node_type,
-                file_path=file_path,
-                line_number=node_index + 1,
-            )
-            return True  # Don't fail validation for unknown node types
+        # Create context for validation
+        context = {
+            "node_type": node_type,
+            "node_index": node_index,
+            "file_path": file_path,
+            "line_number": node_index + 1,
+        }
 
-        # Validate node against schema
-        context = {"schema": schema, "node_type": node_type, "node_index": node_index, "file_path": file_path}
+        # For general validation, we don't need schema
+        if self.validation_mode == ValidationMode.GENERAL:
+            context["schema"] = None
+        else:
+            # For deep validation, get schema for node type (with caching)
+            schema = self._get_cached_schema(node_type)
+            if not schema:
+                self.logger.log_warning(
+                    f"No schema found for node type '{node_type}'",
+                    node_type=node_type,
+                    file_path=file_path,
+                    line_number=node_index + 1,
+                )
+                return True  # Don't fail validation for unknown node types
+            context["schema"] = schema
 
+        # Validate node against rules
         all_valid = True
         for rule in self.rules:
             errors = rule.validate(node, context)
@@ -256,8 +365,8 @@ class ValidationEngine:
                         property_path=error.property_path,
                         expected=error.expected,
                         actual=error.actual,
-                        line_number=node_index + 1,
-                        file_path=file_path,
+                        line_number=error.line_number or node_index + 1,
+                        file_path=error.file_path or file_path,
                     )
                 else:
                     self.logger.log_warning(
@@ -266,8 +375,8 @@ class ValidationEngine:
                         property_path=error.property_path,
                         expected=error.expected,
                         actual=error.actual,
-                        line_number=node_index + 1,
-                        file_path=file_path,
+                        line_number=error.line_number or node_index + 1,
+                        file_path=error.file_path or file_path,
                     )
 
         return all_valid
@@ -341,6 +450,7 @@ def validate_workflow_file(
     output_format: OutputFormat = OutputFormat.CONSOLE,
     plain_text: bool = False,
     logger: N8nLogger | None = None,
+    validation_mode: ValidationMode = ValidationMode.DEEP,
 ) -> int:
     """Validate an n8n workflow file and return exit code."""
 
@@ -367,7 +477,7 @@ def validate_workflow_file(
     logger.start_validation(total_nodes, str(file_path))
 
     # Validate workflow
-    engine = ValidationEngine(logger)
+    engine = ValidationEngine(logger, validation_mode)
     engine.validate_workflow(workflow_data, str(file_path))
 
     # Complete progress tracking

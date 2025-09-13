@@ -1,5 +1,31 @@
 # History
 
+## 1.1.2 (2025-09-13)
+
+### Validation Enhancement Release
+
+#### 🚀 New Features
+
+- **Dual Validation Modes**: Fast general validation and comprehensive deep validation
+- **General Validation**: Quick structure validation for common node properties (id, name, type, typeVersion, position)
+- **Deep Validation**: Schema-based validation for detailed node type checking
+- **Enhanced CLI**: New `deep-validate` command and `--deep` flag for backward compatibility
+
+#### ✨ Improvements
+
+- **Performance**: General validation is significantly faster (no schema lookups)
+- **Flexibility**: Choose between quick checks or thorough validation based on needs
+- **Backward Compatibility**: Existing `validate` command works with `--deep` flag
+- **Better UX**: Clear separation between fast general validation and comprehensive deep validation
+
+#### 🛠️ Technical Changes
+
+- Added `ValidationMode` enum (GENERAL, DEEP)
+- Implemented `GeneralNodeValidationRule` for common property validation
+- Enhanced `ValidationEngine` to support both validation modes
+- Updated CLI with new `deep-validate` command (kept undocumented as requested)
+- All 87 tests passing with updated validation logic
+
 ## 1.1.1 (2025-09-13)
 
 ### Major Release - Mono Package Architecture & PyPI Deployment

@@ -50,7 +50,7 @@ class TestIntegration:
             temp_path = Path(f.name)
 
         try:
-            result = self.runner.invoke(app, ["validate", str(temp_path)])
+            result = self.runner.invoke(app, ["validate", str(temp_path), "--deep"])
 
             # Should succeed with warnings for unknown node types
             assert result.exit_code == 2  # Warnings only
@@ -93,7 +93,7 @@ class TestIntegration:
             temp_path = Path(f.name)
 
         try:
-            result = self.runner.invoke(app, ["validate", str(temp_path)])
+            result = self.runner.invoke(app, ["validate", str(temp_path), "--deep"])
 
             # Should fail with errors
             assert result.exit_code == 1  # Errors present
@@ -166,7 +166,7 @@ class TestIntegration:
             temp_path = Path(f.name)
 
         try:
-            result = self.runner.invoke(app, ["validate", str(temp_path), "--quiet"])
+            result = self.runner.invoke(app, ["validate", str(temp_path), "--quiet", "--deep"])
 
             # Should fail with errors
             assert result.exit_code == 1
@@ -348,7 +348,12 @@ class TestIntegration:
                 temp_path = Path(f.name)
 
             try:
-                result = self.runner.invoke(app, ["validate", str(temp_path)])
+                # Use --deep flag for test cases that expect DEEP validation behavior
+                if test_case["name"] in ["Workflow with missing required field", "Workflow with unknown property"]:
+                    result = self.runner.invoke(app, ["validate", str(temp_path), "--deep"])
+                else:
+                    result = self.runner.invoke(app, ["validate", str(temp_path)])
+
                 assert result.exit_code == test_case["expected_exit_code"], (
                     f"Test case '{test_case['name']}' failed: expected exit code {test_case['expected_exit_code']}, got {result.exit_code}"
                 )
