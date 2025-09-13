@@ -30,7 +30,7 @@ class RequiredPropertyRule(ValidationRule):
         super().__init__("required_property", "Validates required properties are present")
 
     def validate(self, data: Any, context: dict[str, Any]) -> list[ValidationError]:
-        errors = []
+        errors: list[ValidationError] = []
 
         if not isinstance(data, dict):
             return errors
@@ -63,7 +63,7 @@ class TypeValidationRule(ValidationRule):
         super().__init__("type_validation", "Validates property types match schema")
 
     def validate(self, data: Any, context: dict[str, Any]) -> list[ValidationError]:
-        errors = []
+        errors: list[ValidationError] = []
 
         if not isinstance(data, dict):
             return errors
@@ -140,7 +140,7 @@ class UnknownPropertyRule(ValidationRule):
         super().__init__("unknown_property", "Warns about unknown properties")
 
     def validate(self, data: Any, context: dict[str, Any]) -> list[ValidationError]:
-        errors = []
+        errors: list[ValidationError] = []
 
         if not isinstance(data, dict):
             return errors

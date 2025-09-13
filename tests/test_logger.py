@@ -277,7 +277,7 @@ class TestN8nLogger:
         logger.log_warning("Test warning")
 
         # Get the formatter to check what would be printed
-        formatter = logger.formatters[OutputFormat.CONSOLE]
+        formatter = logger.formatters["console"]
         summary = ValidationSummary(
             total_errors=1,
             total_warnings=1,
@@ -300,7 +300,7 @@ class TestN8nLogger:
         logger.log_warning("Test warning")
 
         # For JSON output, we need to test the formatter directly
-        formatter = logger.formatters[OutputFormat.JSON]
+        formatter = logger.formatters["json"]
         all_messages = logger.get_all_messages()
 
         from n8n_lint.formatters.base import ValidationSummary
@@ -330,7 +330,7 @@ class TestN8nLogger:
         logger = N8nLogger(LogLevel.NORMAL, OutputFormat.CONSOLE, False)
 
         # Get the formatter to check what would be printed
-        formatter = logger.formatters[OutputFormat.CONSOLE]
+        formatter = logger.formatters["console"]
         summary = ValidationSummary(
             total_errors=0,
             total_warnings=0,

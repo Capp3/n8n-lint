@@ -3,7 +3,7 @@
 import time
 
 from rich.console import Console
-from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from rich.progress import BarColumn, Progress, SpinnerColumn, TaskID, TextColumn, TimeElapsedColumn
 
 
 class ProgressTracker:
@@ -15,15 +15,15 @@ class ProgressTracker:
         self.console = Console(force_terminal=False, no_color=plain_text)
 
         # Progress tracking
-        self.total_nodes = 0
-        self.completed_nodes = 0
-        self.current_node = None
-        self.start_time = None
-        self.end_time = None
+        self.total_nodes: int = 0
+        self.completed_nodes: int = 0
+        self.current_node: str | None = None
+        self.start_time: float | None = None
+        self.end_time: float | None = None
 
         # Rich progress display
-        self.progress = None
-        self.task_id = None
+        self.progress: Progress | None = None
+        self.task_id: TaskID | None = None
 
         if self.show_progress and not self.plain_text:
             self._setup_rich_progress()
@@ -53,8 +53,9 @@ class ProgressTracker:
             if self.plain_text:
                 self.console.print(f"Starting validation of {total_nodes} nodes...")
             else:
-                self.progress.start()
-                self.task_id = self.progress.add_task(f"Validating {file_path or 'workflow'}", total=total_nodes)
+                if self.progress is not None:
+                    self.progress.start()
+                    self.task_id = self.progress.add_task(f"Validating {file_path or 'workflow'}", total=total_nodes)
 
     def update_progress(self, node_name: str, node_type: str = "") -> None:
         """Update progress for current node."""

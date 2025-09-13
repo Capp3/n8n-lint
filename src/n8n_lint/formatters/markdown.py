@@ -66,7 +66,7 @@ class MarkdownFormatter(OutputFormatter):
 
     def _group_errors_by_severity(self, errors: list[ValidationError]) -> dict[str, list[ValidationError]]:
         """Group errors by severity."""
-        error_groups = {"error": [], "warning": [], "info": []}
+        error_groups: dict[str, list[ValidationError]] = {"error": [], "warning": [], "info": []}
         for error in errors:
             if error.severity in error_groups:
                 error_groups[error.severity].append(error)

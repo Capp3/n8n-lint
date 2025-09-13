@@ -15,7 +15,7 @@ REGISTRY_FILE = SCHEMAS_DIR / "registry.json"
 class SchemaManager:
     """Manages n8n node schemas with registry-based metadata."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.registry: dict[str, Any] = {}
         self.schemas: dict[str, dict[str, Any]] = {}
         self._load_registry()

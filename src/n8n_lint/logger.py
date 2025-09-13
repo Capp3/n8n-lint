@@ -10,7 +10,7 @@ from rich.logging import RichHandler
 
 from .errors import ValidationError
 from .formatters import ConsoleFormatter, HTMLFormatter, JSONFormatter, MarkdownFormatter
-from .formatters.base import ValidationSummary
+from .formatters.base import OutputFormatter, ValidationSummary
 from .progress import ProgressTracker
 
 
@@ -59,6 +59,7 @@ class N8nLogger:
         self.errors: list[ValidationError] = []
         self.warnings: list[ValidationError] = []
         self.info_messages: list[ValidationError] = []
+        self.formatters: dict[str, OutputFormatter] = {}
 
         # Setup console
         if plain_text:
@@ -78,8 +79,8 @@ class N8nLogger:
     def _setup_formatters(self) -> None:
         """Setup output formatters."""
         self.formatters = {
-            OutputFormat.CONSOLE: ConsoleFormatter(plain_text=self.plain_text),
-            OutputFormat.JSON: JSONFormatter(plain_text=self.plain_text),
+            "console": ConsoleFormatter(plain_text=self.plain_text),
+            "json": JSONFormatter(plain_text=self.plain_text),
         }
 
         # Add additional formatters if not plain text
@@ -104,7 +105,7 @@ class N8nLogger:
 
         # Setup handler
         if self.plain_text:
-            handler = logging.StreamHandler(sys.stdout)
+            handler: logging.Handler = logging.StreamHandler(sys.stdout)
             handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
         else:
             handler = RichHandler(console=self.console, show_time=False, show_path=False, markup=True)
@@ -200,12 +201,12 @@ class N8nLogger:
 
         # Use appropriate formatter
         if self.output_format == OutputFormat.JSON:
-            formatter = self.formatters[OutputFormat.JSON]
+            formatter = self.formatters["json"]
             output = formatter.format_validation_result(all_messages, summary)
             # Use print() directly for JSON to avoid Rich formatting
             print(output)
         elif self.output_format == OutputFormat.CONSOLE:
-            formatter = self.formatters[OutputFormat.CONSOLE]
+            formatter = self.formatters["console"]
             # Use render method for proper Rich object display
             if hasattr(formatter, "render_validation_result"):
                 formatter.render_validation_result(all_messages, summary)
@@ -214,7 +215,7 @@ class N8nLogger:
                 self.console.print(output)
         else:
             # For other formats, use console formatter as fallback
-            formatter = self.formatters[OutputFormat.CONSOLE]
+            formatter = self.formatters["console"]
             if hasattr(formatter, "render_validation_result"):
                 formatter.render_validation_result(all_messages, summary)
             else:

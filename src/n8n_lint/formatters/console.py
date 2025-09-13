@@ -120,7 +120,7 @@ class ConsoleFormatter(OutputFormatter):
             return "\n".join(self._format_error_plain(error) for error in errors)
 
         # Group errors by severity
-        error_groups = {"error": [], "warning": [], "info": []}
+        error_groups: dict[str, list[ValidationError]] = {"error": [], "warning": [], "info": []}
         for error in errors:
             if error.severity in error_groups:
                 error_groups[error.severity].append(error)
@@ -149,7 +149,15 @@ class ConsoleFormatter(OutputFormatter):
             summary_text, title=f"{status_icon} Validation Summary", border_style=border_style, padding=(1, 2)
         )
 
-        return panel
+        # Use console to render the panel to string
+        from io import StringIO
+
+        from rich.console import Console
+
+        string_io = StringIO()
+        temp_console = Console(file=string_io, force_terminal=False, width=80)
+        temp_console.print(panel)
+        return string_io.getvalue().strip()
 
     def _get_summary_style(self, summary: ValidationSummary) -> tuple[str, str]:
         """Get border style and status icon based on summary results."""
@@ -226,9 +234,10 @@ class ConsoleFormatter(OutputFormatter):
 
             from rich.console import Console
 
-            console = Console(file=StringIO(), force_terminal=False)
+            string_io = StringIO()
+            console = Console(file=string_io, force_terminal=False)
             console.print(summary_panel)
-            summary_text = console.file.getvalue()
+            summary_text = string_io.getvalue()
         else:
             summary_text = str(summary_panel)
 
