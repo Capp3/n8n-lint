@@ -284,9 +284,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- **Documentation:** Complete usage guide included above
-- **Issues:** [GitHub Issues](https://github.com/your-username/n8n-lint/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/your-username/n8n-lint/discussions)
+- **Documentation:** [Github Pages](https://capp3.github.io/n8n-lint/)
+- **Issues:** [GitHub Issues](https://github.com/capp3/n8n-lint/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/capp3/n8n-lint/discussions)
 
 ## Roadmap
 

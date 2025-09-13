@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from typer.testing import CliRunner
 
-from n8n_lint.cli import app
+from n8n_lint.cli.main import app
 
 
 class TestCLI:
@@ -27,7 +27,7 @@ class TestCLI:
         """Test CLI version command."""
         result = self.runner.invoke(app, ["--version"])
         assert result.exit_code == 0
-        assert "n8n-lint version 1.0.0" in result.output
+        assert "n8n-lint version 1.1.0" in result.output
 
     def test_validate_command_help(self):
         """Test validate command help."""
@@ -74,7 +74,7 @@ class TestCLI:
 
         try:
             # Mock schema manager to return a schema
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -115,7 +115,7 @@ class TestCLI:
 
         try:
             # Mock schema manager to return a schema
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -157,7 +157,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -198,7 +198,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -239,7 +239,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -280,7 +280,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -326,7 +326,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -361,7 +361,7 @@ class TestCLI:
 
         try:
             # Mock schema manager at the module level
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.import_schema.return_value = True
 
                 result = self.runner.invoke(app, ["import-schema", str(temp_path), "--node-type", "test-node"])
@@ -382,7 +382,7 @@ class TestCLI:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
                 mock_schema_manager.import_schema.return_value = False
 
                 result = self.runner.invoke(app, ["import-schema", str(temp_path), "--node-type", "test-node"])
@@ -409,7 +409,7 @@ class TestCLI:
     def test_list_schemas_command(self):
         """Test list-schemas command."""
         # Mock schema manager
-        with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+        with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
             mock_schema_manager.list_node_types.return_value = ["node1", "node2"]
             mock_schema_manager.get_registry_entry.side_effect = [
                 {"description": "Test node 1"},
@@ -426,7 +426,7 @@ class TestCLI:
     def test_list_schemas_command_no_schemas(self):
         """Test list-schemas command with no schemas."""
         # Mock schema manager
-        with patch("n8n_lint.cli.schema_manager") as mock_schema_manager:
+        with patch("n8n_lint.cli.main.schema_manager") as mock_schema_manager:
             mock_schema_manager.list_node_types.return_value = []
 
             result = self.runner.invoke(app, ["list-schemas"])

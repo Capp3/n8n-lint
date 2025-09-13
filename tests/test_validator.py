@@ -5,8 +5,8 @@ import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from n8n_lint.logger import LogLevel, OutputFormat
-from n8n_lint.validator import (
+from n8n_lint.core.logger import LogLevel, OutputFormat
+from n8n_lint.core.validator import (
     JSONParser,
     RequiredPropertyRule,
     TypeValidationRule,
@@ -220,7 +220,7 @@ class TestValidationEngine:
         }
 
         # Mock schema manager to return a schema
-        with patch("n8n_lint.validator.schema_manager") as mock_schema_manager:
+        with patch("n8n_lint.core.validator.schema_manager") as mock_schema_manager:
             mock_schema_manager.get_schema.return_value = {
                 "type": "object",
                 "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -271,7 +271,7 @@ class TestValidationEngine:
         }
 
         # Mock schema manager
-        with patch("n8n_lint.validator.schema_manager") as mock_schema_manager:
+        with patch("n8n_lint.core.validator.schema_manager") as mock_schema_manager:
             mock_schema_manager.get_schema.return_value = {
                 "type": "object",
                 "required": ["id", "name", "type", "typeVersion", "position", "parameters"],
@@ -314,7 +314,7 @@ class TestValidateWorkflowFile:
 
         try:
             # Mock schema manager
-            with patch("n8n_lint.validator.schema_manager") as mock_schema_manager:
+            with patch("n8n_lint.core.validator.schema_manager") as mock_schema_manager:
                 mock_schema_manager.get_schema.return_value = {
                     "type": "object",
                     "required": ["id", "name", "type", "typeVersion", "position", "parameters"],

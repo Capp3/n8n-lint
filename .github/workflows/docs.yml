@@ -1,43 +1,32 @@
-name: Deploy Documentation
+name: Build Documentation
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, develop ]
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - 'src/**'
-      - 'examples/**'
+      - '.github/workflows/docs.yml'
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - 'src/**'
-      - 'examples/**'
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+      - '.github/workflows/docs.yml'
 
 jobs:
-  build:
+  build-docs:
+    name: Build Documentation
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v6
@@ -45,29 +34,65 @@ jobs:
           version: "latest"
 
       - name: Install dependencies
-        run: |
-          uv sync --all-groups
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+        run: uv sync --group dev
 
       - name: Build documentation
+        run: uv run mkdocs build
+
+      - name: Check for broken links
         run: |
-          uv run mkdocs build
+          # Install link checker
+          pip install linkchecker
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+          # Check for broken links (excluding external links)
+          linkchecker --check-extern --ignore-url="^https?://" site/ || true
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
         with:
-          path: ./site
+          name: documentation
+          path: site/
+          retention-days: 30
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  deploy-docs:
+    name: Deploy Documentation
+    needs: build-docs
     runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --group dev
+
+      - name: Build documentation
+        run: uv run mkdocs build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -3,8 +3,9 @@
 import json
 from unittest.mock import Mock, patch
 
+from n8n_lint.core.errors import ValidationError
+from n8n_lint.core.logger import LogLevel, N8nLogger, OutputFormat
 from n8n_lint.formatters.base import ValidationSummary
-from n8n_lint.logger import LogLevel, N8nLogger, OutputFormat, ValidationError
 
 
 class TestLogLevel:

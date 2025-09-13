@@ -1,6 +1,6 @@
 [project]
 name = "n8n-lint"
-version = "1.0.0"
+version = "1.1.0"
 description = "Lint your n8n JSON here."
 readme = "README.md"
 authors = [
@@ -12,7 +12,6 @@ maintainers = [
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
@@ -21,7 +20,7 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Topic :: Text Processing :: Markup :: JSON",
 ]
-license = {text = "MIT"}
+license = "MIT"
 
 dependencies = [
   "typer>=0.12.0",
@@ -64,7 +63,7 @@ changelog = "https://github.com/capp3/n8n_lint/blob/master/changelog.md"
 homepage = "https://github.com/capp3/n8n_lint"
 
 [project.scripts]
-n8n_lint = "n8n_lint.cli:app"
+n8n_lint = "n8n_lint.cli.main:app"
 
 [tool.ruff]
 target-version = "py312"

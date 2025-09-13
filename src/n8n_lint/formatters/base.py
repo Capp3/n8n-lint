@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from ..errors import ValidationError
+from ..core.errors import ValidationError
 
 
 class ValidationSummary:

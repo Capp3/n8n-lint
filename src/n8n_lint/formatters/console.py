@@ -4,7 +4,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 
-from ..errors import ValidationError
+from ..core.errors import ValidationError
 from .base import OutputFormatter, ValidationSummary
 
 

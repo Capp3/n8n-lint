@@ -8,10 +8,10 @@ from enum import Enum
 from rich.console import Console
 from rich.logging import RichHandler
 
+from ..formatters import ConsoleFormatter, HTMLFormatter, JSONFormatter, MarkdownFormatter
+from ..formatters.base import OutputFormatter, ValidationSummary
+from ..utils.progress import ProgressTracker
 from .errors import ValidationError
-from .formatters import ConsoleFormatter, HTMLFormatter, JSONFormatter, MarkdownFormatter
-from .formatters.base import OutputFormatter, ValidationSummary
-from .progress import ProgressTracker
 
 
 class LogLevel(Enum):

@@ -1,0 +1,131 @@
+name: Deploy to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (e.g., 1.1.0)'
+        required: true
+        default: '1.1.0'
+      prerelease:
+        description: 'Mark as prerelease'
+        type: boolean
+        default: false
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  deploy:
+    name: Deploy to PyPI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --all-groups
+
+      - name: Validate version
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          CURRENT_VERSION=$(grep '^version = ' pyproject.toml | cut -d'"' -f2)
+          if [ "$VERSION" != "$CURRENT_VERSION" ]; then
+            echo "Error: Input version ($VERSION) does not match pyproject.toml version ($CURRENT_VERSION)"
+            exit 1
+          fi
+          echo "✅ Version validation passed: $VERSION"
+
+      - name: Run tests
+        run: uv run pytest tests/ -v
+
+      - name: Run linting
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run mypy src/
+
+      - name: Build package
+        run: uv build
+
+      - name: Verify build artifacts
+        run: |
+          echo "Build artifacts:"
+          ls -la dist/
+          echo "Package contents (wheel):"
+          unzip -l dist/*.whl | head -20
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip_existing: true
+          print_hash: true
+          verify_metadata: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: Release v${{ github.event.inputs.version }}
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease }}
+          files: |
+            dist/*
+          generate_release_notes: true
+          body: |
+            ## n8n-lint v${{ github.event.inputs.version }}
+
+            ### Installation
+
+            ```bash
+            pip install n8n-lint==${{ github.event.inputs.version }}
+            ```
+
+            Or with uv:
+
+            ```bash
+            uvx n8n-lint==${{ github.event.inputs.version }} validate workflow.json
+            ```
+
+            ### Changes
+
+            - Mono package architecture with improved organization
+            - Enhanced CLI interface with backward compatibility
+            - Comprehensive validation engine
+            - Multiple output formats (console, JSON, HTML, Markdown)
+            - Custom schema support
+
+            ### Documentation
+
+            - [GitHub Repository](https://github.com/capp3/n8n_lint)
+            - [PyPI Package](https://pypi.org/project/n8n-lint/)
+
+            ### CLI Usage
+
+            ```bash
+            n8n_lint validate workflow.json
+            n8n_lint import-schema schema.json --node-type custom.node
+            n8n_lint list-schemas
+            n8n_lint export-report workflow.json --output report.html --format html
+            ```
+
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Deployment completed successfully!"
+          echo "📦 Version: ${{ github.event.inputs.version }}"
+          echo "🔗 PyPI: https://pypi.org/project/n8n-lint/"
+          echo "🏷️  GitHub Release: https://github.com/capp3/n8n_lint/releases/tag/v${{ github.event.inputs.version }}"
+          echo "📋 Installation: pip install n8n-lint==${{ github.event.inputs.version }}"

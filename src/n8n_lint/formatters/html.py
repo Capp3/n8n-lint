@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from ..errors import ValidationError
+from ..core.errors import ValidationError
 from .base import OutputFormatter, ValidationSummary
 
 

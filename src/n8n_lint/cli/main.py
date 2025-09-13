@@ -5,9 +5,9 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
-from .logger import LogLevel, OutputFormat
-from .schemas import schema_manager
-from .validator import validate_workflow_file
+from ..core.logger import LogLevel, OutputFormat
+from ..core.validator import validate_workflow_file
+from ..schemas import schema_manager
 
 app = typer.Typer(name="n8n_lint", help="Validate n8n workflow JSON files", no_args_is_help=True)
 console = Console()
@@ -36,7 +36,7 @@ def _exit_with_code(code: int) -> None:
 def version_callback(value: bool):
     """Show version information."""
     if value:
-        console.print("n8n-lint version 1.0.0")
+        console.print("n8n-lint version 1.1.0")
         raise typer.Exit()
 
 
@@ -168,8 +168,8 @@ def export_report(
         log_level = LogLevel.NORMAL
 
     # Validate the workflow file and get results
-    from .logger import N8nLogger
-    from .validator import validate_workflow_file
+    from ..core.logger import N8nLogger
+    from ..core.validator import validate_workflow_file
 
     # Create logger for validation
     logger = N8nLogger(log_level=log_level, output_format=OutputFormat.CONSOLE, plain_text=False, show_progress=True)

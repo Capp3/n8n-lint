@@ -6,7 +6,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from n8n_lint.cli import app
+from n8n_lint.cli.main import app
 
 
 class TestIntegration:

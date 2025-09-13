@@ -1,0 +1,1 @@
+{"nodes": [{"id": "test", "type": "n8n-nodes-base.function", "name": "Test Node", "typeVersion": 1, "position": [0, 0], "parameters": {}}], "connections": {}}

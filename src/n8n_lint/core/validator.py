@@ -5,9 +5,9 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
 
+from ..schemas import schema_manager
 from .errors import ValidationError
 from .logger import LogLevel, N8nLogger, OutputFormat
-from .schemas import schema_manager
 
 
 class ValidationRule(ABC):

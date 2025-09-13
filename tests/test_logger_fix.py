@@ -4,7 +4,7 @@ def test_print_summary_json_format():
     import json
     import sys
 
-    from n8n_lint.logger import LogLevel, N8nLogger, OutputFormat
+    from n8n_lint.core.logger import LogLevel, N8nLogger, OutputFormat
 
     logger = N8nLogger(LogLevel.NORMAL, OutputFormat.JSON, False)
     logger.log_error("Test error")

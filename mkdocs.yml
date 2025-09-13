@@ -1,29 +1,13 @@
 site_name: n8n-lint Documentation
 site_description: A Python-based CLI tool for validating JSON structures within n8n workflows
 site_author: Dom Capparelli
-site_url: https://your-username.github.io/n8n-lint
+site_url: https://capp3.github.io/n8n_lint
 
-repo_name: your-username/n8n-lint
-repo_url: https://github.com/your-username/n8n-lint
+repo_name: capp3/n8n_lint
+repo_url: https://github.com/capp3/n8n_lint
 
 theme:
-  name: material
-  palette:
-    # Gruvbox color palette
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: "#d65d0e" # gruvbox orange
-      accent: "#b16286" # gruvbox purple
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: "#fe8019" # gruvbox bright orange
-      accent: "#d3869b" # gruvbox bright purple
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+  name: readthedocs
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -53,16 +37,27 @@ plugins:
 
 nav:
   - Home: index.md
+  - User Guide:
+      - Overview: user-guide/index.md
+      - Installation: user-guide/installation.md
+      - Basic Usage: user-guide/basic-usage.md
+  - CLI Reference:
+      - Overview: cli-reference/index.md
+  - API Reference:
+      - Overview: api-reference/index.md
+  - Developer:
+      - Overview: developer/index.md
+      - Development Setup: developer/development-setup.md
+  - Examples:
+      - Sample Workflow: examples/sample_workflow.json
+      - Workflow with Errors: examples/workflow_with_errors.json
+      - Custom Node Schema: examples/custom_node_schema.json
   - Development:
       - Tasks: tasks.md
       - Status: status.md
   - Archive:
       - Overview: archive/README.md
       - Documentation Consolidation: archive/documentation-consolidation-20250910.md
-  - Examples:
-      - Sample Workflow: examples/sample_workflow.json
-      - Workflow with Errors: examples/workflow_with_errors.json
-      - Custom Node Schema: examples/custom_node_schema.json
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -104,10 +99,8 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/your-username/n8n-lint
+      link: https://github.com/capp3/n8n_lint
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/n8n-lint/
   version:
     provider: mike
-  css:
-    - stylesheets/gruvbox.css
